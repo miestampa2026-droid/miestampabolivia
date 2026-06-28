@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ── Brand (paleta directa del brand guide) ── */
+    --color-coral:        #F05A4F;
+    --color-coral-dark:   #D44840;
+    --color-coral-light:  #FDE8E7;
+    --color-charcoal:     #2B2B2B;
+    --color-gray-mid:     #6B7280;
+    --color-gray-light:   #F3F4F6;
+    --color-white:        #FFFFFF;
+    --color-off-white:    #FAFAFA;
+    --color-success:      #22C55E;
+    --color-warning:      #F59E0B;
+    --color-error:        #EF4444;
+    --color-info:         #3B82F6;
+
+    /* Sombras brand */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.10);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+
+    /* ── Tokens semánticos Shadcn UI (HSL, mapeados al brand) ── */
+    --background:             0 0% 100%;
+    --foreground:             0 0% 17%;
+    --card:                   0 0% 100%;
+    --card-foreground:        0 0% 17%;
+    --popover:                0 0% 100%;
+    --popover-foreground:     0 0% 17%;
+    --primary:                4 84% 62%;   /* coral */
+    --primary-foreground:     0 0% 100%;
+    --secondary:              220 14% 96%;
+    --secondary-foreground:   0 0% 17%;
+    --muted:                  220 14% 96%;
+    --muted-foreground:       220 9% 46%;
+    --accent:                 4 84% 95%;   /* coral light */
+    --accent-foreground:      4 64% 54%;   /* coral dark */
+    --destructive:            0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border:                 220 13% 91%;
+    --input:                  220 13% 91%;
+    --ring:                   4 84% 62%;
+    --radius:                 12px;
+  }
+
+  *,
+  *::before,
+  *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-body), system-ui, sans-serif;
+    color: var(--color-charcoal);
+    background: var(--color-white);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg { display: block; max-width: 100%; }
+
+  ::selection {
+    background-color: var(--color-coral);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-coral);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
