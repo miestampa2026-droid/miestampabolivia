@@ -7,11 +7,20 @@ import { getDesigns } from '@/lib/queries/designs'
 
 export const revalidate = 0
 
-export default async function DisenoPage({ params }: { params: { id: string } }) {
+export default async function DisenoPage({
+  params,
+  searchParams
+}: {
+  params: { id: string }
+  searchParams: { variantes?: string }
+}) {
   const product = await getProductWithVariants(params.id)
   const designs = await getDesigns()
 
   if (!product) notFound()
+
+  const selectedIds = new Set((searchParams.variantes ?? '').split(',').filter(Boolean))
+  const selectedVariants = product.variants.filter((v) => selectedIds.has(v.id))
 
   return (
     <main className="min-h-dvh bg-off-white">
@@ -31,7 +40,7 @@ export default async function DisenoPage({ params }: { params: { id: string } })
           Elegí tu diseño
         </h1>
 
-        <DesignSelector product={product} designs={designs} />
+        <DesignSelector product={product} designs={designs} selectedVariants={selectedVariants} />
       </div>
     </main>
   )

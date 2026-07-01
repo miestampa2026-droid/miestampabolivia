@@ -1,14 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 import { DesignGallery } from '@/components/design/DesignGallery'
 import { ImageUploadValidator } from '@/components/design/ImageUploadValidator'
 import { PreviewApproval } from '@/components/design/PreviewApproval'
 import { composePreview } from '@/lib/previewCompose'
+import { useCart } from '@/lib/cart/CartContext'
 import { cn } from '@/lib/utils'
+import { VARIANT_LABELS } from '@/lib/variantLabels'
 import type { Design } from '@/lib/queries/designs'
-import type { ProductDetail } from '@/lib/queries/catalog'
+import type { ProductDetail, Variant } from '@/lib/queries/catalog'
 
 type Selection =
   | { source: 'galeria'; design: Design }
@@ -36,14 +39,23 @@ async function uploadPreview(blob: Blob): Promise<string | null> {
 
 export function DesignSelector({
   product,
-  designs
+  designs,
+  selectedVariants
 }: {
   product: ProductDetail
   designs: Design[]
+  selectedVariants: Variant[]
 }) {
+  const router = useRouter()
+  const { addItem } = useCart()
   const [tab, setTab] = useState<'galeria' | 'subida'>('galeria')
   const [selection, setSelection] = useState<Selection>(null)
   const [step, setStep] = useState<Step>({ name: 'seleccionar' })
+
+  const unitPrice = useMemo(
+    () => product.base_price + selectedVariants.reduce((sum, v) => sum + v.price_delta, 0),
+    [product.base_price, selectedVariants]
+  )
 
   async function handleContinuar() {
     if (!selection || !product.mockup_image_url) return
@@ -64,12 +76,37 @@ export function DesignSelector({
     }
   }
 
+  function handleAddToCart(previewUrl: string) {
+    if (!selection) return
+
+    addItem({
+      productId: product.id,
+      productName: product.name,
+      categoryName: product.category_name,
+      mockupImageUrl: product.mockup_image_url,
+      variantsSnapshot: selectedVariants.map((v) => ({
+        type: v.variant_type,
+        label: VARIANT_LABELS[v.variant_type] ?? v.variant_type,
+        value: v.variant_value,
+        priceDelta: v.price_delta
+      })),
+      designSource: selection.source,
+      designLabel: selection.source === 'galeria' ? selection.design.name : 'Imagen propia',
+      previewImageUrl: previewUrl,
+      quantity: 1,
+      unitPrice
+    })
+
+    router.push('/carrito')
+  }
+
   if (step.name === 'preview') {
     return (
       <PreviewApproval
         previewUrl={step.previewUrl}
         uploadWarning={step.uploadWarning}
         onChangeDesign={() => setStep({ name: 'seleccionar' })}
+        onAddToCart={() => handleAddToCart(step.previewUrl)}
       />
     )
   }

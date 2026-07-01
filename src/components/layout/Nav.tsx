@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { CartLink } from '@/components/layout/CartLink'
 
 export function Nav() {
   return (
@@ -9,12 +10,15 @@ export function Nav() {
           <span className="font-extrabold text-charcoal">Estampa</span>
         </Link>
 
-        <Link
-          href="/catalogo"
-          className="font-display text-sm font-bold text-charcoal transition hover:text-coral"
-        >
-          Catálogo
-        </Link>
+        <div className="flex items-center gap-6">
+          <Link
+            href="/catalogo"
+            className="font-display text-sm font-bold text-charcoal transition hover:text-coral"
+          >
+            Catálogo
+          </Link>
+          <CartLink />
+        </div>
       </div>
     </header>
   )

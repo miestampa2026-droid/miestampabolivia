@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Plus_Jakarta_Sans, Nunito } from 'next/font/google'
 import { Nav } from '@/components/layout/Nav'
+import { CartProvider } from '@/lib/cart/CartContext'
 import './globals.css'
 
 const displayFont = Plus_Jakarta_Sans({
@@ -51,8 +52,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es-BO" className={`${displayFont.variable} ${bodyFont.variable}`}>
       <body className="min-h-dvh bg-background text-foreground antialiased">
-        <Nav />
-        {children}
+        <CartProvider>
+          <Nav />
+          {children}
+        </CartProvider>
       </body>
     </html>
   )

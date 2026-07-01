@@ -4,12 +4,7 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { formatBs, cn } from '@/lib/utils'
 import { groupVariantsByType, type ProductDetail } from '@/lib/queries/catalog'
-
-const VARIANT_LABELS: Record<string, string> = {
-  talla: 'Talla',
-  color: 'Color',
-  tipo_taza: 'Tipo'
-}
+import { VARIANT_LABELS } from '@/lib/variantLabels'
 
 export function VariantPicker({ product }: { product: ProductDetail }) {
   const groups = useMemo(() => groupVariantsByType(product.variants), [product.variants])
