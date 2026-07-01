@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <rect width="600" height="600" fill="#F3F4F6"/>
+  <g transform="translate(300,320)">
+    <path d="M -160 20 Q -160 -110 0 -110 Q 160 -110 160 20 Z" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M -160 20 L -230 45 Q -235 60 -215 62 L -20 62 Q 0 62 0 40 L 0 20 Z" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="6" stroke-linejoin="round"/>
+    <circle cx="0" cy="-108" r="8" fill="#2B2B2B"/>
+    <rect x="-90" y="-70" width="180" height="110" rx="10" fill="none" stroke="#F05A4F" stroke-width="4" stroke-dasharray="10 10"/>
+  </g>
+  <text x="300" y="560" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="20" font-weight="600" fill="#6B7280">Gorra trucker</text>
+</svg>

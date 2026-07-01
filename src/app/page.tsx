@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Sparkles } from 'lucide-react'
 
 export default function Home() {
@@ -24,7 +25,14 @@ export default function Home() {
             con envío a todo el país.
           </p>
 
-          <div className="mt-12 inline-flex flex-col items-center gap-3">
+          <Link
+            href="/catalogo"
+            className="mt-10 inline-block rounded-full bg-coral px-7 py-3 font-display text-[15px] font-bold text-white shadow-card-sm transition hover:-translate-y-px hover:bg-coral-dark hover:shadow-card-md"
+          >
+            Ver catálogo
+          </Link>
+
+          <div className="mt-10 inline-flex flex-col items-center gap-3">
             <div className="h-1 w-12 rounded-full bg-coral" />
             <span className="font-display text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-mid">
               MVP en construcción

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <rect width="600" height="600" fill="#F3F4F6"/>
+  <g transform="translate(300,300)">
+    <rect x="-110" y="-120" width="220" height="220" rx="14" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="6"/>
+    <path d="M 110 -70 Q 190 -70 190 0 Q 190 70 110 70" fill="none" stroke="#2B2B2B" stroke-width="6"/>
+    <rect x="-80" y="-90" width="160" height="160" rx="8" fill="none" stroke="#F05A4F" stroke-width="4" stroke-dasharray="10 10"/>
+  </g>
+  <text x="300" y="560" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="20" font-weight="600" fill="#6B7280">Taza cerámica 11 oz</text>
+</svg>

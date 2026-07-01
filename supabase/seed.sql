@@ -33,7 +33,7 @@ values
    'Polera algodón cuello redondo',
    'Polera 100% algodón peinado 180g. Cuello redondo, costura reforzada. Ideal para estampado serigráfico o sublimado.',
    90.00,
-   '/mockups/polera-blanca.png',
+   '/mockups/polera-blanca.svg',
    0.330, 0.260, 0.340, 0.380),
 
   ('bbbb2222-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
@@ -41,7 +41,7 @@ values
    'Gorra trucker',
    'Gorra trucker frente algodón, espalda en malla transpirable, cierre snapback ajustable.',
    75.00,
-   '/mockups/gorra-blanca.png',
+   '/mockups/gorra-blanca.svg',
    0.300, 0.330, 0.400, 0.260),
 
   ('cccc3333-cccc-cccc-cccc-cccccccccccc',
@@ -49,7 +49,7 @@ values
    'Taza cerámica 11 oz',
    'Taza de cerámica blanca apta para sublimación. 11 oz.',
    55.00,
-   '/mockups/taza-blanca.png',
+   '/mockups/taza-blanca.svg',
    0.280, 0.250, 0.460, 0.500);
 
 -- ── Variantes ──────────────────────────────────────────────
