@@ -22,6 +22,13 @@ export type Variant = {
   price_delta: number
 }
 
+export type PrintArea = {
+  x: number
+  y: number
+  w: number
+  h: number
+}
+
 export type ProductDetail = {
   id: string
   name: string
@@ -30,6 +37,7 @@ export type ProductDetail = {
   mockup_image_url: string | null
   category_id: string
   category_name: string
+  print_area: PrintArea
   variants: Variant[]
 }
 
@@ -71,7 +79,9 @@ export async function getProductWithVariants(id: string): Promise<ProductDetail 
 
   const { data: product, error: productError } = await supabase
     .from('products')
-    .select('id, name, description, base_price, mockup_image_url, category_id')
+    .select(
+      'id, name, description, base_price, mockup_image_url, category_id, print_area_x, print_area_y, print_area_w, print_area_h'
+    )
     .eq('id', id)
     .eq('active', true)
     .maybeSingle()
@@ -102,6 +112,12 @@ export async function getProductWithVariants(id: string): Promise<ProductDetail 
     mockup_image_url: product.mockup_image_url,
     category_id: product.category_id,
     category_name: category?.name ?? '',
+    print_area: {
+      x: product.print_area_x,
+      y: product.print_area_y,
+      w: product.print_area_w,
+      h: product.print_area_h
+    },
     variants: variants ?? []
   }
 }

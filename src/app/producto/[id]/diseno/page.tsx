@@ -31,7 +31,7 @@ export default async function DisenoPage({ params }: { params: { id: string } })
           Elegí tu diseño
         </h1>
 
-        <DesignSelector designs={designs} />
+        <DesignSelector product={product} designs={designs} />
       </div>
     </main>
   )
