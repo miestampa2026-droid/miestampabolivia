@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <g transform="translate(200,200)">
+    <circle cx="0" cy="0" r="150" fill="none" stroke="#2B2B2B" stroke-width="8"/>
+    <circle cx="0" cy="0" r="130" fill="none" stroke="#F05A4F" stroke-width="4" stroke-dasharray="6 10"/>
+    <text x="0" y="-6" font-family="'Plus Jakarta Sans',sans-serif" font-size="46" font-weight="800" fill="#2B2B2B" text-anchor="middle">CAMBA</text>
+    <text x="0" y="46" font-family="'Plus Jakarta Sans',sans-serif" font-size="40" font-weight="800" fill="#F05A4F" text-anchor="middle">100%</text>
+  </g>
+</svg>

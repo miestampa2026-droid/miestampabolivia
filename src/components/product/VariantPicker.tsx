@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import Link from 'next/link'
 import { formatBs, cn } from '@/lib/utils'
 import { groupVariantsByType, type ProductDetail } from '@/lib/queries/catalog'
 
@@ -83,17 +84,15 @@ export function VariantPicker({ product }: { product: ProductDetail }) {
         ))}
       </div>
 
-      <button
-        type="button"
-        disabled
-        className="mt-10 w-full cursor-not-allowed rounded-full bg-coral px-7 py-4 font-display text-[15px] font-bold text-white opacity-45 sm:w-auto"
-        title="Disponible cuando esté lista la sección de galería de diseños"
+      <Link
+        href={{
+          pathname: `/producto/${product.id}/diseno`,
+          query: { variantes: Object.values(selected).join(',') }
+        }}
+        className="mt-10 inline-block w-full rounded-full bg-coral px-7 py-4 text-center font-display text-[15px] font-bold text-white shadow-card-sm transition hover:-translate-y-px hover:bg-coral-dark hover:shadow-card-md sm:w-auto"
       >
         Elegir diseño
-      </button>
-      <p className="mt-3 font-body text-xs text-gray-mid">
-        Próximamente: elegí un diseño de la galería o subí el tuyo.
-      </p>
+      </Link>
     </div>
   )
 }

@@ -67,12 +67,12 @@ insert into public.product_variants (product_id, variant_type, variant_value, pr
 
 -- ── Diseños de la galería ──────────────────────────────────
 insert into public.designs (category, name, image_url) values
-  ('Frases',   'Vive con estampa',  '/designs/seed/frases-vive.png'),
-  ('Frases',   'Camba 100%',        '/designs/seed/frases-camba.png'),
-  ('Animales', 'Llama en el cielo', '/designs/seed/animales-llama.png'),
-  ('Animales', 'Jaguar boliviano',  '/designs/seed/animales-jaguar.png'),
-  ('Carnaval', 'Diablada',          '/designs/seed/carnaval-diablada.png'),
-  ('Deportes', 'Verde la franja',   '/designs/seed/deportes-franja.png');
+  ('Frases',   'Vive con estampa',  '/designs/frases-vive.svg'),
+  ('Frases',   'Camba 100%',        '/designs/frases-camba.svg'),
+  ('Animales', 'Llama en el cielo', '/designs/animales-llama.svg'),
+  ('Animales', 'Jaguar boliviano',  '/designs/animales-jaguar.svg'),
+  ('Carnaval', 'Diablada',          '/designs/carnaval-diablada.svg'),
+  ('Deportes', 'Verde la franja',   '/designs/deportes-franja.svg');
 
 -- ── Zonas de envío (placeholder, confirmar con socias) ─────
 insert into public.shipping_zones (name, departamento, cost, estimated_days) values
