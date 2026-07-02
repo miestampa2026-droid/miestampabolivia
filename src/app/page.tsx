@@ -38,21 +38,23 @@ const PASOS = [
   { title: 'Recibís en casa', icon: Truck }
 ]
 
-const FAN_CARDS: { type: MockupType; offset: number; rotate: number; size: number; z: number }[] = [
-  { type: 'polera', offset: -100, rotate: -6, size: 160, z: 0 },
-  { type: 'gorra', offset: 0, rotate: 0, size: 180, z: 10 },
-  { type: 'taza', offset: 100, rotate: 6, size: 160, z: 0 }
+const FAN_CARDS: { type: MockupType; offset: number; rotate: number; z: number }[] = [
+  { type: 'polera', offset: -120, rotate: -6, z: 0 },
+  { type: 'gorra', offset: 0, rotate: 0, z: 10 },
+  { type: 'taza', offset: 120, rotate: 6, z: 0 }
 ]
 
 export default async function Home() {
   const { products } = await getCategoriesWithProducts()
-  const bestsellers = products.slice(0, 4)
+  const featured = products.filter((p) => p.badge === 'Más vendido')
+  const bestsellers = (featured.length >= 4 ? featured : products).slice(0, 4)
   const sizesByProduct = await getProductSizes(bestsellers.map((p) => p.id))
 
   const countByCategoryName: Record<string, number> = {}
   for (const p of products) {
     countByCategoryName[p.category_name] = (countByCategoryName[p.category_name] ?? 0) + 1
   }
+  const categoriasConStock = Object.values(countByCategoryName).filter((c) => c > 0).length
 
   return (
     <main className="bg-white">
@@ -95,11 +97,11 @@ export default async function Home() {
             </div>
 
             <p className="mt-6 flex flex-wrap items-center justify-center gap-x-2 font-body text-sm text-gray-mid lg:justify-start">
-              <span>500+ productos</span>
+              <span>{categoriasConStock} categorías</span>
               <span className="text-coral">·</span>
-              <span>Envío a 9 departamentos</span>
+              <span>Envío a Bolivia</span>
               <span className="text-coral">·</span>
-              <span>Entrega en 3-5 días</span>
+              <span>Pago por QR</span>
             </p>
           </div>
 
@@ -116,20 +118,17 @@ export default async function Home() {
           </div>
 
           {/* Desktop: stack en abanico */}
-          <div className="relative hidden h-[260px] w-[340px] shrink-0 lg:block">
-            {FAN_CARDS.map(({ type, offset, rotate, size, z }) => (
+          <div className="relative hidden h-[300px] w-[380px] shrink-0 lg:block">
+            {FAN_CARDS.map(({ type, offset, rotate, z }) => (
               <div
                 key={type}
-                className="absolute left-1/2 top-1/2 rounded-2xl bg-white shadow-card-lg"
+                className="absolute left-1/2 top-1/2 flex h-56 w-48 items-center justify-center rounded-2xl bg-white shadow-card-lg"
                 style={{
-                  width: size,
-                  height: size + 40,
-                  padding: 20,
                   zIndex: z,
                   transform: `translate(calc(-50% + ${offset}px), -50%) rotate(${rotate}deg)`
                 }}
               >
-                <ProductMockup type={type} color="coral" className="h-full w-full" />
+                <ProductMockup type={type} color="coral" className="h-24 w-24" />
               </div>
             ))}
           </div>
@@ -189,9 +188,11 @@ export default async function Home() {
                   href={`/catalogo?categoria=${cat.slug}`}
                   className={`group relative aspect-[4/3] overflow-hidden rounded-2xl ${cat.bg} p-6 shadow-card-sm transition duration-200 ease-brand hover:-translate-y-1 hover:scale-[1.03] hover:shadow-card-lg`}
                 >
-                  <span className="absolute right-3 top-3 rounded-full bg-white/85 px-2.5 py-1 font-display text-sm font-bold text-coral-dark">
-                    {count} {count === 1 ? 'producto' : 'productos'}
-                  </span>
+                  {count > 0 && (
+                    <span className="absolute right-3 top-3 rounded-full bg-white/85 px-2.5 py-1 font-display text-sm font-bold text-coral-dark">
+                      {count} {count === 1 ? 'producto' : 'productos'}
+                    </span>
+                  )}
 
                   <div className="flex h-full flex-col items-center justify-center">
                     <div className="w-full max-w-[160px]">
@@ -249,7 +250,6 @@ export default async function Home() {
                 <ProductCard
                   key={product.id}
                   product={product}
-                  badge="bestseller"
                   showTechnique
                   sizes={sizesByProduct[product.id]}
                 />

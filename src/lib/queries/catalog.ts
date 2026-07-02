@@ -13,6 +13,9 @@ export type ProductListItem = {
   mockup_image_url: string | null
   category_id: string
   category_name: string
+  technique: string | null
+  mockup_type: string | null
+  badge: string | null
 }
 
 export type Variant = {
@@ -38,6 +41,8 @@ export type ProductDetail = {
   category_id: string
   category_name: string
   print_area: PrintArea
+  technique: string | null
+  mockup_type: string | null
   variants: Variant[]
 }
 
@@ -55,7 +60,7 @@ export async function getCategoriesWithProducts(): Promise<{
 
   const { data: products, error: productsError } = await supabase
     .from('products')
-    .select('id, name, base_price, mockup_image_url, category_id')
+    .select('id, name, base_price, mockup_image_url, category_id, technique, mockup_type, badge')
     .order('created_at', { ascending: true })
   if (productsError) throw productsError
 
@@ -69,7 +74,10 @@ export async function getCategoriesWithProducts(): Promise<{
       base_price: p.base_price,
       mockup_image_url: p.mockup_image_url,
       category_id: p.category_id,
-      category_name: categoryNameById.get(p.category_id) ?? ''
+      category_name: categoryNameById.get(p.category_id) ?? '',
+      technique: p.technique,
+      mockup_type: p.mockup_type,
+      badge: p.badge
     }))
   }
 }
@@ -80,7 +88,7 @@ export async function getProductWithVariants(id: string): Promise<ProductDetail 
   const { data: product, error: productError } = await supabase
     .from('products')
     .select(
-      'id, name, description, base_price, mockup_image_url, category_id, print_area_x, print_area_y, print_area_w, print_area_h'
+      'id, name, description, base_price, mockup_image_url, category_id, print_area_x, print_area_y, print_area_w, print_area_h, technique, mockup_type'
     )
     .eq('id', id)
     .eq('active', true)
@@ -118,6 +126,8 @@ export async function getProductWithVariants(id: string): Promise<ProductDetail 
       w: product.print_area_w,
       h: product.print_area_h
     },
+    technique: product.technique,
+    mockup_type: product.mockup_type,
     variants: variants ?? []
   }
 }

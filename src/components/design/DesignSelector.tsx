@@ -152,11 +152,11 @@ export function DesignSelector({
 
       <button
         type="button"
-        disabled={!selection || step.name === 'componiendo'}
+        disabled={!selection || !product.mockup_image_url || step.name === 'componiendo'}
         onClick={handleContinuar}
         className={cn(
           'mt-10 flex w-full items-center justify-center gap-2 rounded-full bg-coral px-7 py-4 font-display text-[15px] font-bold text-white transition sm:w-auto',
-          !selection || step.name === 'componiendo'
+          !selection || !product.mockup_image_url || step.name === 'componiendo'
             ? 'cursor-not-allowed opacity-45'
             : 'shadow-card-sm hover:-translate-y-px hover:bg-coral-dark hover:shadow-card-md'
         )}
@@ -168,7 +168,13 @@ export function DesignSelector({
       {step.name === 'error' && (
         <p className="mt-3 font-body text-sm text-brand-error">{step.message}</p>
       )}
-      {step.name !== 'error' && (
+      {step.name !== 'error' && !product.mockup_image_url && (
+        <p className="mt-3 font-body text-sm text-brand-warning">
+          El preview automático todavía no está disponible para este producto — falta la foto real
+          de la prenda (pendiente del cliente).
+        </p>
+      )}
+      {step.name !== 'error' && product.mockup_image_url && (
         <p className="mt-3 font-body text-sm text-gray-mid">
           {selection
             ? 'Listo para generar el preview de tu estampa.'

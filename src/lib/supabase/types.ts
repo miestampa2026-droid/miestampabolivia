@@ -50,6 +50,9 @@ export type Database = {
           print_area_y: number
           print_area_w: number
           print_area_h: number
+          technique: string | null
+          mockup_type: string | null
+          badge: string | null
           active: boolean
           created_at: string
         }
@@ -64,6 +67,9 @@ export type Database = {
           print_area_y?: number
           print_area_w?: number
           print_area_h?: number
+          technique?: string | null
+          mockup_type?: string | null
+          badge?: string | null
           active?: boolean
           created_at?: string
         }

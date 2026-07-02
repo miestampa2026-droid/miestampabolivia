@@ -97,7 +97,7 @@ export function ProductMockup({
             <path
               d="M 58,-30 Q 100,-30 100,10 Q 100,50 58,50"
               fill="none"
-              stroke={stroke}
+              stroke={fill}
               strokeWidth={13}
               strokeLinecap="round"
             />
