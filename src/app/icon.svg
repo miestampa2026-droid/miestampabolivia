@@ -1,4 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="14" fill="#F05A4F"/>
-  <text x="32" y="44" font-family="'Plus Jakarta Sans','Segoe UI',system-ui,sans-serif" font-size="38" font-weight="800" text-anchor="middle" fill="#FFFFFF">M</text>
+  <path
+    d="M23 12 L15 16 L9 24 L15 28.5 L18.5 25.5 L18.5 52 L45.5 52 L45.5 25.5 L49 28.5 L55 24 L49 16 L41 12 Q37 17.5 32 17.5 Q27 17.5 23 12 Z"
+    stroke="#FFFFFF"
+    stroke-width="3"
+    stroke-linejoin="round"
+    stroke-linecap="round"
+    fill="#F05A4F"
+  />
+  <path
+    d="M32 38 C32 33.5 27.8 31 24.8 33.1 C22.2 34.8 21.8 38.3 24 40.4 L32 48 L40 40.4 C42.2 38.3 41.8 34.8 39.2 33.1 C36.2 31 32 33.5 32 38 Z"
+    fill="#FFFFFF"
+  />
 </svg>

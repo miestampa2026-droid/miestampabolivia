@@ -17,6 +17,11 @@ export function ProductCard({ product }: { product: ProductListItem }) {
             className="absolute inset-0 h-full w-full object-cover"
           />
         )}
+        {product.category_name && (
+          <span className="absolute left-3 top-3 rounded-full bg-coral-light px-3 py-1 font-display text-sm font-bold text-coral-dark">
+            {product.category_name}
+          </span>
+        )}
       </div>
       <div className="p-4">
         <p className="mb-1 font-display text-[16px] font-bold text-charcoal">{product.name}</p>

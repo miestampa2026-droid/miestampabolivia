@@ -166,10 +166,10 @@ export function DesignSelector({
       </button>
 
       {step.name === 'error' && (
-        <p className="mt-3 font-body text-xs text-brand-error">{step.message}</p>
+        <p className="mt-3 font-body text-sm text-brand-error">{step.message}</p>
       )}
       {step.name !== 'error' && (
-        <p className="mt-3 font-body text-xs text-gray-mid">
+        <p className="mt-3 font-body text-sm text-gray-mid">
           {selection
             ? 'Listo para generar el preview de tu estampa.'
             : 'Elegí un diseño de la galería o subí el tuyo para continuar.'}

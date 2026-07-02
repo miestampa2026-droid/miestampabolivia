@@ -80,7 +80,7 @@ export function DesignGallery({
                   className="h-full w-full object-contain"
                 />
               </div>
-              <p className="mt-2 text-center font-body text-xs text-gray-mid">{design.name}</p>
+              <p className="mt-2 text-center font-body text-sm text-gray-mid">{design.name}</p>
             </button>
           )
         })}

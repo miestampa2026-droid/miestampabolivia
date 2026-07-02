@@ -13,7 +13,7 @@ export default async function CatalogoPage() {
   return (
     <main className="min-h-dvh bg-off-white">
       <div className="container py-8 sm:py-12">
-        <span className="font-display text-[11px] font-bold uppercase tracking-[0.18em] text-coral">
+        <span className="font-display text-sm font-bold uppercase tracking-[0.18em] text-coral">
           Catálogo
         </span>
         <h1 className="mb-6 mt-1 font-display text-[clamp(28px,4vw,48px)] font-bold leading-tight text-charcoal">

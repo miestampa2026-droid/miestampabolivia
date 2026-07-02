@@ -21,7 +21,7 @@ export function CartItemRow({ item }: { item: CartItem }) {
 
       <div className="min-w-0 flex-1">
         <p className="font-display text-sm font-bold text-charcoal">{item.productName}</p>
-        <p className="font-body text-xs text-gray-mid">
+        <p className="font-body text-sm text-gray-mid">
           {item.variantsSnapshot.map((v) => v.value).join(' · ')}
           {item.variantsSnapshot.length > 0 && ' · '}
           {item.designLabel}
@@ -56,7 +56,7 @@ export function CartItemRow({ item }: { item: CartItem }) {
           <button
             type="button"
             onClick={() => removeItem(item.id)}
-            className="ml-auto flex items-center gap-1 font-body text-xs text-gray-mid hover:text-brand-error"
+            className="ml-auto flex items-center gap-1 font-body text-sm text-gray-mid hover:text-brand-error"
           >
             <Trash2 size={14} />
             Quitar

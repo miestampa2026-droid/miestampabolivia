@@ -65,7 +65,7 @@ export function ImageUploadValidator({
           <span className="font-display text-sm font-bold text-charcoal">
             {checking ? 'Revisando la imagen…' : 'Subí tu diseño'}
           </span>
-          <span className="font-body text-xs text-gray-mid">PNG, JPG o WEBP · hasta 25 MB</span>
+          <span className="font-body text-sm text-gray-mid">PNG, JPG o WEBP · hasta 25 MB</span>
         </label>
       )}
 

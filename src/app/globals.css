@@ -18,10 +18,33 @@
     --color-error:        #EF4444;
     --color-info:         #3B82F6;
 
-    /* Sombras brand */
+    /* Tipografía — cargada vía next/font/google (self-hosted, sin
+       parpadeo ni request externo en runtime); mismas familias que
+       pide el Brand Guide sección 3, servidas de forma óptima */
+    --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-body:    'Nunito', system-ui, sans-serif;
+
+    /* Espaciado — Brand Guide sección 4 */
+    --space-xs:   8px;
+    --space-sm:   16px;
+    --space-md:   24px;
+    --space-lg:   40px;
+    --space-xl:   64px;
+    --space-2xl:  96px;
+
+    /* Bordes — Brand Guide sección 4 */
+    --radius-sm:   8px;
+    --radius-md:   12px;
+    --radius-lg:   20px;
+    --radius-full: 999px;
+
+    /* Sombras */
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
     --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.10);
     --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+
+    /* Transición */
+    --transition: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 
     /* ── Tokens semánticos Shadcn UI (HSL, mapeados al brand) ── */
     --background:             0 0% 100%;

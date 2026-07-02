@@ -30,7 +30,7 @@ export function VariantPicker({ product }: { product: ProductDetail }) {
 
   return (
     <div>
-      <p className="font-display text-[11px] font-bold uppercase tracking-[0.18em] text-coral">
+      <p className="font-display text-sm font-bold uppercase tracking-[0.18em] text-coral">
         {product.category_name}
       </p>
       <h1 className="mt-1 font-display text-[clamp(24px,4vw,36px)] font-bold leading-tight text-charcoal">
@@ -47,7 +47,7 @@ export function VariantPicker({ product }: { product: ProductDetail }) {
       <div className="mt-8 flex flex-col gap-6">
         {groups.map(([type, variants]) => (
           <div key={type}>
-            <span className="mb-2 block font-display text-[13px] font-semibold text-charcoal">
+            <span className="mb-2 block font-display text-sm font-semibold text-charcoal">
               {VARIANT_LABELS[type] ?? type}
             </span>
             <div className="flex flex-wrap gap-2">

@@ -35,7 +35,7 @@ export function PreviewApproval({
         </button>
       </div>
       {uploadWarning && (
-        <p className="mt-3 font-body text-xs text-brand-warning">
+        <p className="mt-3 font-body text-sm text-brand-warning">
           El preview se generó bien, pero no se pudo guardar en el servidor. Se puede reintentar más adelante.
         </p>
       )}

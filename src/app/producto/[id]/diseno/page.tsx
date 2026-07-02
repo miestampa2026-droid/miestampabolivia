@@ -33,7 +33,7 @@ export default async function DisenoPage({
           {product.name}
         </Link>
 
-        <span className="block font-display text-[11px] font-bold uppercase tracking-[0.18em] text-coral">
+        <span className="block font-display text-sm font-bold uppercase tracking-[0.18em] text-coral">
           Paso 2
         </span>
         <h1 className="mb-6 mt-1 font-display text-[clamp(28px,4vw,48px)] font-bold leading-tight text-charcoal">

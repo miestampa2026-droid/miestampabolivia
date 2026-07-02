@@ -58,7 +58,7 @@ export default function CheckoutPage() {
               <h2 className="mb-3 font-display text-sm font-bold text-charcoal">Tus datos</h2>
               <div className="flex flex-col gap-3">
                 <div>
-                  <label className="mb-1.5 block font-display text-[13px] font-semibold text-charcoal">
+                  <label className="mb-1.5 block font-display text-sm font-semibold text-charcoal">
                     Nombre completo
                   </label>
                   <input
@@ -69,7 +69,7 @@ export default function CheckoutPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-1.5 block font-display text-[13px] font-semibold text-charcoal">
+                  <label className="mb-1.5 block font-display text-sm font-semibold text-charcoal">
                     WhatsApp
                   </label>
                   <input
@@ -81,7 +81,7 @@ export default function CheckoutPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-1.5 block font-display text-[13px] font-semibold text-charcoal">
+                  <label className="mb-1.5 block font-display text-sm font-semibold text-charcoal">
                     Email
                   </label>
                   <input
@@ -127,7 +127,7 @@ export default function CheckoutPage() {
               {deliveryMethod === 'envio' && (
                 <div className="mt-4 flex flex-col gap-3">
                   <div>
-                    <label className="mb-1.5 block font-display text-[13px] font-semibold text-charcoal">
+                    <label className="mb-1.5 block font-display text-sm font-semibold text-charcoal">
                       Zona / departamento
                     </label>
                     <select
@@ -145,7 +145,7 @@ export default function CheckoutPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="mb-1.5 block font-display text-[13px] font-semibold text-charcoal">
+                    <label className="mb-1.5 block font-display text-sm font-semibold text-charcoal">
                       Dirección
                     </label>
                     <input
@@ -185,7 +185,7 @@ export default function CheckoutPage() {
             >
               Continuar al pago
             </button>
-            <p className="mt-3 font-body text-xs text-gray-mid">
+            <p className="mt-3 font-body text-sm text-gray-mid">
               Próximamente: pago por QR (sección 07).
             </p>
           </div>
