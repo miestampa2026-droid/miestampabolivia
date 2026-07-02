@@ -38,9 +38,12 @@ export default async function Home() {
 
   return (
     <main className="bg-white">
-      {/* Sección 1 — Hero */}
+      {/* Sección 1 — Hero. min-h descuenta los 64px (h-16) de la nav
+          sticky para que el contenido quede centrado en el viewport
+          visible, no en 100dvh completo (eso empujaba todo hacia
+          abajo y dejaba un hueco vacío arriba). */}
       <section
-        className="flex min-h-[100dvh] flex-col items-center justify-center px-6 py-24 text-center"
+        className="flex min-h-[calc(100dvh-4rem)] flex-col items-center justify-center px-6 py-16 text-center"
         style={{ background: 'linear-gradient(160deg, #ffffff 60%, #FDE8E7 100%)' }}
       >
         <div className="w-full max-w-lg">
@@ -113,7 +116,9 @@ export default async function Home() {
             </Link>
           </div>
 
-          <Logo variant="filled" size={200} className="shrink-0" />
+          <div className="h-[200px] w-[200px] shrink-0">
+            <ProductMockup type="blusa" color="coral" accent="heart" className="h-full w-full" />
+          </div>
         </div>
       </section>
 

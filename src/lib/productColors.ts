@@ -19,6 +19,7 @@ export const PRODUCT_COLORS: Record<string, string> = {
 
 export function resolveProductColor(name: string | undefined): string {
   if (!name) return PRODUCT_COLORS.blanco
+  if (name.startsWith('#')) return name
   return PRODUCT_COLORS[name.toLowerCase()] ?? PRODUCT_COLORS.blanco
 }
 
