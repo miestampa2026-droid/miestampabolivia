@@ -122,6 +122,29 @@ export async function getProductWithVariants(id: string): Promise<ProductDetail 
   }
 }
 
+export async function getProductSizes(productIds: string[]): Promise<Record<string, string[]>> {
+  if (productIds.length === 0) return {}
+
+  const supabase = createBrowserSupabase()
+  const { data, error } = await supabase
+    .from('product_variants')
+    .select('product_id, variant_value')
+    .in('product_id', productIds)
+    .eq('variant_type', 'talla')
+    .eq('active', true)
+    .order('created_at', { ascending: true })
+
+  if (error) throw error
+
+  const sizesByProduct: Record<string, string[]> = {}
+  for (const row of data ?? []) {
+    const list = sizesByProduct[row.product_id]
+    if (list) list.push(row.variant_value)
+    else sizesByProduct[row.product_id] = [row.variant_value]
+  }
+  return sizesByProduct
+}
+
 export function groupVariantsByType(variants: Variant[]): Array<[string, Variant[]]> {
   const map = new Map<string, Variant[]>()
   for (const v of variants) {

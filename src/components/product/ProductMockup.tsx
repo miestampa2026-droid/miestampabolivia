@@ -92,18 +92,18 @@ export function ProductMockup({
 
         {type === 'taza' && (
           <>
-            <rect x={-70} y={-75} width={140} height={145} rx={12} fill={fill} stroke={stroke} />
+            <ellipse cx={0} cy={106} rx={78} ry={9} fill={fill} opacity={0.35} stroke="none" />
+            <rect x={-58} y={-63} width={116} height={128} rx={16} fill={fill} stroke={stroke} strokeWidth={4} />
             <path
-              d="M 70,-40 Q 122,-40 122,0 Q 122,40 70,40"
+              d="M 58,-30 Q 100,-30 100,10 Q 100,50 58,50"
               fill="none"
               stroke={stroke}
-              strokeWidth={9}
+              strokeWidth={13}
+              strokeLinecap="round"
             />
-            {showHeart && (
-              <g transform="translate(0,-3) scale(2.2)">
-                <path d={HEART_PATH} fill="#FFFFFF" stroke="none" />
-              </g>
-            )}
+            <g transform="translate(0,3) scale(2.4)">
+              <path d={HEART_PATH} fill="#FFFFFF" stroke="none" />
+            </g>
           </>
         )}
 

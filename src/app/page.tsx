@@ -1,9 +1,9 @@
 import Link from 'next/link'
-import { ChevronDown } from 'lucide-react'
+import { Shirt, Upload, Truck, ArrowRight } from 'lucide-react'
 import { Logo } from '@/components/layout/Logo'
 import { ProductMockup, type MockupType } from '@/components/product/ProductMockup'
 import { ProductCard } from '@/components/catalog/ProductCard'
-import { getCategoriesWithProducts } from '@/lib/queries/catalog'
+import { getCategoriesWithProducts, getProductSizes } from '@/lib/queries/catalog'
 
 export const revalidate = 0
 
@@ -32,92 +32,143 @@ const MARQUEE_ITEMS = [
   'miestampa.com'
 ]
 
+const PASOS = [
+  { title: 'Elegís tu prenda', icon: Shirt },
+  { title: 'Subís tu diseño', icon: Upload },
+  { title: 'Recibís en casa', icon: Truck }
+]
+
+const FAN_CARDS: { type: MockupType; offset: number; rotate: number; size: number; z: number }[] = [
+  { type: 'polera', offset: -100, rotate: -6, size: 160, z: 0 },
+  { type: 'gorra', offset: 0, rotate: 0, size: 180, z: 10 },
+  { type: 'taza', offset: 100, rotate: 6, size: 160, z: 0 }
+]
+
 export default async function Home() {
   const { products } = await getCategoriesWithProducts()
   const bestsellers = products.slice(0, 4)
+  const sizesByProduct = await getProductSizes(bestsellers.map((p) => p.id))
+
+  const countByCategoryName: Record<string, number> = {}
+  for (const p of products) {
+    countByCategoryName[p.category_name] = (countByCategoryName[p.category_name] ?? 0) + 1
+  }
 
   return (
     <main className="bg-white">
       {/* Sección 1 — Hero. min-h descuenta los 64px (h-16) de la nav
           sticky para que el contenido quede centrado en el viewport
-          visible, no en 100dvh completo (eso empujaba todo hacia
-          abajo y dejaba un hueco vacío arriba). */}
+          visible, no en 100dvh completo. */}
       <section
-        className="flex min-h-[calc(100dvh-4rem)] flex-col items-center justify-center px-6 py-16 text-center"
+        className="flex min-h-[calc(100dvh-4rem)] items-center px-6 py-16"
         style={{ background: 'linear-gradient(160deg, #ffffff 60%, #FDE8E7 100%)' }}
       >
-        <div className="w-full max-w-lg">
-          <span
-            className="mb-6 inline-block animate-fadeUp font-display text-sm font-bold uppercase tracking-[0.2em] text-coral"
-            style={{ animationDelay: '0ms' }}
-          >
-            Nueva forma de personalizar
-          </span>
+        <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+          <div className="w-full max-w-xl animate-fadeUp text-center lg:text-left">
+            <span className="mb-6 inline-block font-display text-sm font-bold uppercase tracking-[0.2em] text-coral">
+              Nueva forma de personalizar
+            </span>
 
-          <h1
-            className="animate-fadeUp font-display text-charcoal leading-[1.05] text-[clamp(56px,9vw,100px)]"
-            style={{ animationDelay: '100ms' }}
-          >
-            <span className="font-normal">Mi </span>
-            <span className="font-extrabold text-coral">Estampa</span>
-          </h1>
+            <h1 className="font-display text-charcoal leading-[1.02] text-[clamp(64px,9vw,110px)]">
+              <span className="block font-light">Mi</span>
+              <span className="block font-black text-coral">Estampa</span>
+            </h1>
 
-          <p
-            className="mt-3 animate-fadeUp font-body text-xl text-gray-mid"
-            style={{ animationDelay: '200ms' }}
-          >
-            Tu estilo, tu estampa
-          </p>
+            <p className="mx-auto mt-6 max-w-[440px] font-body text-lg text-gray-mid lg:mx-0">
+              La primera plataforma de Bolivia donde personalizás tu ropa online. Elegís la
+              prenda, subís tu diseño y nosotros lo estampamos.
+            </p>
 
-          <div
-            className="mt-10 flex animate-fadeUp flex-col items-center gap-3 sm:flex-row sm:justify-center"
-            style={{ animationDelay: '300ms' }}
-          >
-            <Link
-              href="/catalogo"
-              className="w-full rounded-full bg-coral px-7 py-3.5 text-center font-display text-[15px] font-bold text-white shadow-card-sm transition hover:-translate-y-px hover:bg-coral-dark hover:shadow-card-md sm:w-auto"
-            >
-              Ver catálogo
-            </Link>
-            <a
-              href="#explora"
-              className="w-full rounded-full border-2 border-coral px-7 py-3.5 text-center font-display text-[15px] font-bold text-coral transition hover:bg-coral hover:text-white sm:w-auto"
-            >
-              ¿Cómo funciona?
-            </a>
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
+              <Link
+                href="/catalogo"
+                className="w-full rounded-full bg-coral px-7 py-3.5 text-center font-display text-[15px] font-bold text-white shadow-card-sm transition hover:-translate-y-px hover:bg-coral-dark hover:shadow-card-md sm:w-auto"
+              >
+                Ver catálogo
+              </Link>
+              <a
+                href="#explora"
+                className="w-full rounded-full border-2 border-coral px-7 py-3.5 text-center font-display text-[15px] font-bold text-coral transition hover:bg-coral hover:text-white sm:w-auto"
+              >
+                ¿Cómo funciona?
+              </a>
+            </div>
+
+            <p className="mt-6 flex flex-wrap items-center justify-center gap-x-2 font-body text-sm text-gray-mid lg:justify-start">
+              <span>500+ productos</span>
+              <span className="text-coral">·</span>
+              <span>Envío a 9 departamentos</span>
+              <span className="text-coral">·</span>
+              <span>Entrega en 3-5 días</span>
+            </p>
+          </div>
+
+          {/* Mobile: fila horizontal scrolleable */}
+          <div className="flex w-full gap-4 overflow-x-auto px-1 pb-2 lg:hidden">
+            {FAN_CARDS.map(({ type }) => (
+              <div
+                key={type}
+                className="h-[160px] w-[140px] shrink-0 rounded-2xl bg-white p-5 shadow-card-md"
+              >
+                <ProductMockup type={type} color="coral" className="h-full w-full" />
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop: stack en abanico */}
+          <div className="relative hidden h-[260px] w-[340px] shrink-0 lg:block">
+            {FAN_CARDS.map(({ type, offset, rotate, size, z }) => (
+              <div
+                key={type}
+                className="absolute left-1/2 top-1/2 rounded-2xl bg-white shadow-card-lg"
+                style={{
+                  width: size,
+                  height: size + 40,
+                  padding: 20,
+                  zIndex: z,
+                  transform: `translate(calc(-50% + ${offset}px), -50%) rotate(${rotate}deg)`
+                }}
+              >
+                <ProductMockup type={type} color="coral" className="h-full w-full" />
+              </div>
+            ))}
           </div>
         </div>
-
-        <a
-          href="#explora"
-          aria-label="Descubrir más"
-          className="mt-16 flex animate-fadeUp flex-col items-center gap-1 font-body text-sm text-gray-mid transition hover:text-coral"
-          style={{ animationDelay: '400ms' }}
-        >
-          <ChevronDown size={22} className="animate-bounce" aria-hidden />
-        </a>
       </section>
 
-      {/* Sección 2 — Banner promocional */}
-      <section id="explora" className="bg-coral-light px-6 py-16">
-        <div className="mx-auto flex max-w-5xl flex-col items-center gap-10 sm:flex-row sm:justify-between">
-          <div className="text-center sm:text-left">
-            <h2 className="font-display text-[clamp(28px,4vw,36px)] font-extrabold leading-tight text-charcoal">
-              Estampá tus momentos
-            </h2>
-            <p className="mx-auto mt-3 max-w-sm font-body text-base leading-relaxed text-charcoal sm:mx-0">
-              Elegí cualquier prenda, subí tu diseño y nosotros lo estampamos. Envío a todo Bolivia.
-            </p>
-            <Link
-              href="/catalogo"
-              className="mt-6 inline-block rounded-full bg-coral px-7 py-3.5 font-display text-[15px] font-bold text-white shadow-card-sm transition hover:-translate-y-px hover:bg-coral-dark hover:shadow-card-md"
-            >
-              Empezar ahora →
-            </Link>
-          </div>
+      {/* Sección 2 — Banner promocional, 2 columnas 50/50 */}
+      <section id="explora" className="grid sm:grid-cols-2">
+        <div className="bg-coral px-6 py-16 text-center sm:px-12 sm:py-20 sm:text-left">
+          <span className="mb-4 inline-block font-display text-sm font-bold uppercase tracking-[0.2em] text-white/80">
+            Nuevo en Bolivia
+          </span>
+          <h2 className="font-display text-[clamp(28px,4vw,36px)] font-bold leading-tight text-white">
+            Personalización 100% online
+          </h2>
+          <p className="mx-auto mt-4 max-w-sm font-body text-base leading-relaxed text-white/90 sm:mx-0">
+            Sin llamadas, sin visitas. Diseñás, pagás y recibís en tu puerta.
+          </p>
+          <Link
+            href="/catalogo"
+            className="mt-6 inline-block rounded-full bg-white px-7 py-3.5 font-display text-[15px] font-bold text-coral shadow-card-sm transition hover:-translate-y-px hover:shadow-card-md"
+          >
+            Empezar ahora →
+          </Link>
+        </div>
 
-          <div className="h-[200px] w-[200px] shrink-0">
-            <ProductMockup type="blusa" color="coral" accent="heart" className="h-full w-full" />
+        <div className="bg-coral-light px-6 py-16 sm:px-12 sm:py-20">
+          <div className="mx-auto flex max-w-sm flex-col gap-8">
+            {PASOS.map(({ title, icon: Icon }, i) => (
+              <div key={title} className="flex items-center gap-4">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white font-display text-lg font-extrabold text-coral">
+                  {i + 1}
+                </span>
+                <div className="flex items-center gap-2">
+                  <Icon size={20} className="shrink-0 text-coral" aria-hidden />
+                  <p className="font-display text-base font-bold text-charcoal">{title}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -130,18 +181,33 @@ export default async function Home() {
           </h2>
 
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6">
-            {CATEGORIAS.map((cat) => (
-              <Link
-                key={cat.slug}
-                href={`/catalogo?categoria=${cat.slug}`}
-                className={`group rounded-2xl ${cat.bg} p-6 text-center shadow-card-sm transition duration-200 ease-brand hover:-translate-y-1 hover:shadow-card-lg`}
-              >
-                <div className="mx-auto aspect-square w-full max-w-[120px]">
-                  <ProductMockup type={cat.mockupType} color={cat.mockupColor} className="h-full w-full" />
-                </div>
-                <p className="mt-3 font-display text-sm font-bold text-charcoal">{cat.name}</p>
-              </Link>
-            ))}
+            {CATEGORIAS.map((cat) => {
+              const count = countByCategoryName[cat.name] ?? 0
+              return (
+                <Link
+                  key={cat.slug}
+                  href={`/catalogo?categoria=${cat.slug}`}
+                  className={`group relative aspect-[4/3] overflow-hidden rounded-2xl ${cat.bg} p-6 shadow-card-sm transition duration-200 ease-brand hover:-translate-y-1 hover:scale-[1.03] hover:shadow-card-lg`}
+                >
+                  <span className="absolute right-3 top-3 rounded-full bg-white/85 px-2.5 py-1 font-display text-sm font-bold text-coral-dark">
+                    {count} {count === 1 ? 'producto' : 'productos'}
+                  </span>
+
+                  <div className="flex h-full flex-col items-center justify-center">
+                    <div className="w-full max-w-[160px]">
+                      <ProductMockup type={cat.mockupType} color={cat.mockupColor} className="h-full w-full" />
+                    </div>
+                    <p className="mt-3 font-display text-base font-bold text-charcoal">{cat.name}</p>
+                  </div>
+
+                  <ArrowRight
+                    size={18}
+                    className="absolute bottom-3 right-3 text-coral opacity-0 transition duration-200 ease-brand group-hover:opacity-100"
+                    aria-hidden
+                  />
+                </Link>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -180,7 +246,13 @@ export default async function Home() {
 
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
               {bestsellers.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  badge="bestseller"
+                  showTechnique
+                  sizes={sizesByProduct[product.id]}
+                />
               ))}
             </div>
 
