@@ -79,6 +79,20 @@ const config: Config = {
       },
       transitionTimingFunction: {
         brand: 'cubic-bezier(0.16, 1, 0.3, 1)'
+      },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' }
+        },
+        fadeUp: {
+          '0%': { opacity: '0', transform: 'translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' }
+        }
+      },
+      animation: {
+        marquee: 'marquee 24s linear infinite',
+        fadeUp: 'fadeUp 0.7s ease-out both'
       }
     }
   },

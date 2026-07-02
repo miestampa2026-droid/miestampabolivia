@@ -12,7 +12,9 @@ export const PRODUCT_COLORS: Record<string, string> = {
   amarillo: '#F59E0B',
   rosa: '#F9A8D4',
   beige: '#E8DCC8',
-  natural: '#EDE4D3'
+  natural: '#EDE4D3',
+  coral: '#F05A4F',
+  violeta: '#A78BFA'
 }
 
 export function resolveProductColor(name: string | undefined): string {
