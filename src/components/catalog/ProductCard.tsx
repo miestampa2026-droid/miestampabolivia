@@ -31,12 +31,12 @@ export function ProductCard({
   return (
     <div className="group relative overflow-hidden rounded-2xl bg-white shadow-card-sm transition duration-200 ease-brand hover:-translate-y-[5px] hover:shadow-card-lg">
       <Link href={`/producto/${product.id}`} className="block">
-        <div className="relative flex aspect-square items-center justify-center overflow-hidden bg-gray-light p-6">
+        <div className="relative flex h-[200px] items-center justify-center overflow-hidden bg-gray-light p-4">
           <ProductMockup
             type={mockupType}
             color="coral"
             accent={fallback.accent}
-            className="h-[75%] w-[75%]"
+            className="h-32 w-32"
           />
           {product.badge ? (
             <span
@@ -55,7 +55,7 @@ export function ProductCard({
             )
           )}
 
-          <span className="absolute inset-x-0 bottom-0 translate-y-full bg-coral py-2.5 text-center font-display text-sm font-bold text-white transition duration-200 ease-brand group-hover:translate-y-0">
+          <span className="absolute inset-x-0 bottom-0 translate-y-full bg-coral py-3 text-center font-display text-sm font-bold text-white transition-transform duration-300 group-hover:translate-y-0">
             Personalizar →
           </span>
         </div>

@@ -22,8 +22,11 @@ export function ProductMockup({
   const stroke = contrastStroke(fill)
   const showHeart = accent === 'heart'
 
+  // viewBox recortado (antes "0 0 400 400"): las siluetas ocupan como
+  // máximo ±165px alrededor del centro (200,200), así que el box de 340
+  // elimina el aire interno que hacía ver chicos los mockups en las cards.
   return (
-    <svg viewBox="0 0 400 400" className={className} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="30 30 340 340" className={className} xmlns="http://www.w3.org/2000/svg">
       <g transform="translate(200,200)" strokeWidth={5} strokeLinejoin="round" strokeLinecap="round">
         {type === 'polera' && (
           <>
