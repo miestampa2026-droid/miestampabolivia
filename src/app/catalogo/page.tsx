@@ -1,5 +1,9 @@
 import { CatalogView } from '@/components/catalog/CatalogView'
-import { getCategoriesWithProducts } from '@/lib/queries/catalog'
+import {
+  getCategoriesWithProducts,
+  getProductSizes,
+  getProductColors
+} from '@/lib/queries/catalog'
 
 export const metadata = {
   title: 'Catálogo — Mi Estampa'
@@ -7,8 +11,15 @@ export const metadata = {
 
 export const revalidate = 0
 
-export default async function CatalogoPage() {
+export default async function CatalogoPage({
+  searchParams
+}: {
+  searchParams: { categoria?: string }
+}) {
   const { categories, products } = await getCategoriesWithProducts()
+  const productIds = products.map((p) => p.id)
+  const sizesByProduct = await getProductSizes(productIds)
+  const colorsByProduct = await getProductColors(productIds)
 
   return (
     <main className="min-h-dvh bg-off-white">
@@ -20,7 +31,13 @@ export default async function CatalogoPage() {
           Elegí tu producto
         </h1>
 
-        <CatalogView categories={categories} products={products} />
+        <CatalogView
+          categories={categories}
+          products={products}
+          sizesByProduct={sizesByProduct}
+          colorsByProduct={colorsByProduct}
+          initialCategorySlug={searchParams.categoria}
+        />
       </div>
     </main>
   )

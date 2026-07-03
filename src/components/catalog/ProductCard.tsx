@@ -6,16 +6,19 @@ import { Heart } from 'lucide-react'
 import { formatBs, cn } from '@/lib/utils'
 import { ProductMockup, type MockupType } from '@/components/product/ProductMockup'
 import { getMockupForCategory } from '@/lib/productMockupMap'
+import { resolveProductColor } from '@/lib/productColors'
 import type { ProductListItem } from '@/lib/queries/catalog'
 
 export function ProductCard({
   product,
   showTechnique = false,
-  sizes
+  sizes,
+  colors
 }: {
   product: ProductListItem
   showTechnique?: boolean
   sizes?: string[]
+  colors?: string[]
 }) {
   // product.mockup_type/technique son datos reales (columnas products.*).
   // La heurística por categoría queda solo como red de seguridad para
@@ -25,22 +28,15 @@ export function ProductCard({
   const technique = product.technique
   const [favorited, setFavorited] = useState(false)
 
-  const hasImageArea = Boolean(product.badge)
-
   return (
-    <div className="group relative overflow-hidden rounded-2xl bg-white shadow-card-sm transition duration-200 ease-brand hover:-translate-y-1 hover:shadow-card-lg">
+    <div className="group relative overflow-hidden rounded-2xl bg-white shadow-card-sm transition duration-200 ease-brand hover:-translate-y-[5px] hover:shadow-card-lg">
       <Link href={`/producto/${product.id}`} className="block">
-        <div
-          className={cn(
-            'relative flex items-center justify-center overflow-hidden bg-gray-light',
-            hasImageArea ? 'h-[220px] p-10' : 'aspect-square p-6'
-          )}
-        >
+        <div className="relative flex aspect-square items-center justify-center overflow-hidden bg-gray-light p-6">
           <ProductMockup
             type={mockupType}
             color="coral"
             accent={fallback.accent}
-            className="h-full w-full"
+            className="h-[75%] w-[75%]"
           />
           {product.badge ? (
             <span
@@ -58,6 +54,10 @@ export function ProductCard({
               </span>
             )
           )}
+
+          <span className="absolute inset-x-0 bottom-0 translate-y-full bg-coral py-2.5 text-center font-display text-sm font-bold text-white transition duration-200 ease-brand group-hover:translate-y-0">
+            Personalizar →
+          </span>
         </div>
       </Link>
 
@@ -83,7 +83,20 @@ export function ProductCard({
           </span>
         )}
 
-        <p className="font-display text-lg font-extrabold text-coral">
+        {colors && colors.length > 0 && (
+          <div className="mb-1.5 flex flex-wrap items-center gap-1.5">
+            {colors.map((c) => (
+              <span
+                key={c}
+                title={c}
+                className="h-4 w-4 rounded-full border border-gray-light"
+                style={{ backgroundColor: resolveProductColor(c) }}
+              />
+            ))}
+          </div>
+        )}
+
+        <p className="font-display text-xl font-extrabold text-coral">
           {formatBs(product.base_price)}
         </p>
 

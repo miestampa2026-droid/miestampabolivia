@@ -61,7 +61,8 @@ export async function getCategoriesWithProducts(): Promise<{
   const { data: products, error: productsError } = await supabase
     .from('products')
     .select('id, name, base_price, mockup_image_url, category_id, technique, mockup_type, badge')
-    .order('created_at', { ascending: true })
+    .eq('active', true)
+    .order('created_at', { ascending: false })
   if (productsError) throw productsError
 
   const categoryNameById = new Map((categories ?? []).map((c) => [c.id, c.name]))
@@ -153,6 +154,29 @@ export async function getProductSizes(productIds: string[]): Promise<Record<stri
     else sizesByProduct[row.product_id] = [row.variant_value]
   }
   return sizesByProduct
+}
+
+export async function getProductColors(productIds: string[]): Promise<Record<string, string[]>> {
+  if (productIds.length === 0) return {}
+
+  const supabase = createBrowserSupabase()
+  const { data, error } = await supabase
+    .from('product_variants')
+    .select('product_id, variant_value')
+    .in('product_id', productIds)
+    .eq('variant_type', 'color')
+    .eq('active', true)
+    .order('created_at', { ascending: true })
+
+  if (error) throw error
+
+  const colorsByProduct: Record<string, string[]> = {}
+  for (const row of data ?? []) {
+    const list = colorsByProduct[row.product_id]
+    if (list) list.push(row.variant_value)
+    else colorsByProduct[row.product_id] = [row.variant_value]
+  }
+  return colorsByProduct
 }
 
 export function groupVariantsByType(variants: Variant[]): Array<[string, Variant[]]> {

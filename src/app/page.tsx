@@ -46,8 +46,10 @@ const FAN_CARDS: { type: MockupType; offset: number; rotate: number; z: number }
 
 export default async function Home() {
   const { products } = await getCategoriesWithProducts()
+  // Primero los que tienen badge "Más vendido", completando con el resto
+  // (el orden de la query ahora es created_at DESC).
   const featured = products.filter((p) => p.badge === 'Más vendido')
-  const bestsellers = (featured.length >= 4 ? featured : products).slice(0, 4)
+  const bestsellers = [...featured, ...products.filter((p) => p.badge !== 'Más vendido')].slice(0, 4)
   const sizesByProduct = await getProductSizes(bestsellers.map((p) => p.id))
 
   const countByCategoryName: Record<string, number> = {}
