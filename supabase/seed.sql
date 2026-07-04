@@ -43,7 +43,7 @@ values
    'Polera algodón cuello redondo',
    'Polera 100% algodón peinado 180g. Cuello redondo, costura reforzada. Ideal para estampado serigráfico o sublimado.',
    90.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/polera-hombre.png',
-   0.330, 0.260, 0.340, 0.380,
+   0.350, 0.320, 0.300, 0.320,
    'Serigrafía', 'polera', null),
 
   ('bbbb2222-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
@@ -67,7 +67,7 @@ values
    'Polera Deportiva Sublimada',
    'Polera técnica de poliéster, transpirable, ideal para diseños fotográficos a color completo.',
    120.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/polera-hombre.png',
-   default, default, default, default,
+   0.350, 0.320, 0.300, 0.320,
    'Sublimación', 'polera', 'Más vendido'),
 
   ('dddd2222-dddd-dddd-dddd-dddddddddddd',
@@ -75,7 +75,7 @@ values
    'Polera Básica Algodón',
    'Polera de algodón 100%, corte clásico, la opción más versátil para estampado serigráfico.',
    80.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/polera-mujer.png',
-   default, default, default, default,
+   0.350, 0.320, 0.300, 0.320,
    'Serigrafía', 'polera', 'Más vendido'),
 
   ('dddd3333-dddd-dddd-dddd-dddddddddddd',
@@ -83,7 +83,7 @@ values
    'Polera Oversize',
    'Corte oversize amplio, algodón grueso 220g. Tendencia streetwear.',
    110.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/polera-hombre.png',
-   default, default, default, default,
+   0.350, 0.320, 0.300, 0.320,
    'DTF', 'polera', 'Nuevo'),
 
   ('eeee1111-eeee-eeee-eeee-eeeeeeeeeeee',
@@ -91,7 +91,7 @@ values
    'Blusa Mujer Cuello V',
    'Blusa entallada cuello V, tela suave de poliéster apta para sublimación.',
    95.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/blusa-mujer-cuello-v.png',
-   default, default, default, default,
+   0.350, 0.320, 0.300, 0.320,
    'Sublimación', 'blusa', 'Nuevo'),
 
   ('eeee2222-eeee-eeee-eeee-eeeeeeeeeeee',
@@ -99,7 +99,7 @@ values
    'Blusa Manga Larga',
    'Blusa manga larga entallada, ideal para diseños DTF de alta definición.',
    115.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/blusa-manga-larga.png',
-   default, default, default, default,
+   0.350, 0.320, 0.300, 0.320,
    'DTF', 'blusa', null),
 
   ('ffff1111-ffff-ffff-ffff-ffffffffffff',
@@ -107,7 +107,7 @@ values
    'Gorra Curva Bordada',
    'Gorra visera curva con bordado 3D, estructura reforzada.',
    85.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/gorra.png',
-   default, default, default, default,
+   0.300, 0.330, 0.400, 0.260,
    'Bordado', 'gorra', null),
 
   ('99991111-9999-9999-9999-999999999999',
@@ -115,7 +115,7 @@ values
    'Taza Mágica',
    'Taza cerámica negra que revela el diseño a color al contacto con líquido caliente.',
    75.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/taza.png',
-   default, default, default, default,
+   0.280, 0.250, 0.460, 0.500,
    'Sublimación', 'taza', 'Nuevo'),
 
   ('88881111-8888-8888-8888-888888888888',
@@ -123,7 +123,7 @@ values
    'Suéter Cuello Redondo',
    'Suéter frisado cuello redondo, ideal para diseños grandes en la espalda o el pecho.',
    160.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/sueter-hombre.png',
-   default, default, default, default,
+   0.350, 0.320, 0.300, 0.320,
    'DTF', 'sueter', 'Nuevo'),
 
   ('77771111-7777-7777-7777-777777777777',
@@ -131,7 +131,7 @@ values
    'Tote Bag Algodón',
    'Bolso tote de algodón grueso resistente, asas reforzadas.',
    65.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/tote-bag-algodon.png',
-   default, default, default, default,
+   0.350, 0.500, 0.300, 0.300,
    'Serigrafía', 'totebag', null);
 
 -- ── Variantes ──────────────────────────────────────────────

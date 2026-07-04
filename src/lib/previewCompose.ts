@@ -51,7 +51,15 @@ export async function composePreview(
   const drawX = areaX + (areaW - drawW) / 2
   const drawY = areaY + (areaH - drawH) / 2
 
+  // 'multiply' deja que las sombras/pliegues de la tela se noten a
+  // través del diseño (equivalente Canvas de mix-blend-mode: multiply),
+  // y el drop-shadow suave da la sensación de que el estampado sigue
+  // la curvatura de la prenda en vez de flotar encima.
+  ctx.save()
+  ctx.globalCompositeOperation = 'multiply'
+  ctx.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.12))'
   ctx.drawImage(designImg, drawX, drawY, drawW, drawH)
+  ctx.restore()
 
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => {

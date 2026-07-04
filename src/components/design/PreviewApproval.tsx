@@ -10,7 +10,7 @@ export function PreviewApproval({
   onAddToCart: () => void
 }) {
   return (
-    <div className="rounded-2xl bg-coral-light p-6 text-center sm:p-10">
+    <div className="rounded-2xl bg-off-white p-6 text-center sm:p-10">
       <div className="mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-2xl bg-white shadow-card-md">
         {/* eslint-disable-next-line @next/next/no-img-element -- preview generado localmente vía Canvas */}
         <img src={previewUrl} alt="Preview de tu estampa" className="h-full w-full object-contain" />
