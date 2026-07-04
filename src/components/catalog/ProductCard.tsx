@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Heart } from 'lucide-react'
 import { formatBs, cn } from '@/lib/utils'
 import { ProductMockup, type MockupType } from '@/components/product/ProductMockup'
@@ -32,12 +33,22 @@ export function ProductCard({
     <div className="group relative overflow-hidden rounded-2xl bg-white shadow-card-sm transition duration-200 ease-brand hover:-translate-y-[5px] hover:shadow-card-lg">
       <Link href={`/producto/${product.id}`} className="block">
         <div className="relative flex h-[200px] items-center justify-center overflow-hidden bg-gray-light p-4">
-          <ProductMockup
-            type={mockupType}
-            color="coral"
-            accent={fallback.accent}
-            className="h-32 w-32"
-          />
+          {product.mockup_image_url ? (
+            <Image
+              src={product.mockup_image_url}
+              alt={product.name}
+              fill
+              className="object-contain p-6"
+              sizes="(max-width: 768px) 50vw, 33vw"
+            />
+          ) : (
+            <ProductMockup
+              type={mockupType}
+              color="coral"
+              accent={fallback.accent}
+              className="h-32 w-32"
+            />
+          )}
           {product.badge ? (
             <span
               className={cn(

@@ -28,11 +28,11 @@ insert into public.products_categories (id, name, slug, sort_order) values
 
 -- ── Productos ──────────────────────────────────────────────
 -- mockup_type alimenta <ProductMockup /> (icono SVG con color de marca)
--- en catálogo/home/tarjetas. mockup_image_url (cuando existe) es la
--- foto real usada en /producto/[id] y en la composición del preview
--- (sección 05) — los 9 productos nuevos todavía no tienen foto real
--- (pendiente de sección 00), así que la página de producto cae de
--- vuelta a <ProductMockup /> para ellos.
+-- en catálogo/home/tarjetas — se usa como fallback siempre que
+-- mockup_image_url sea null. mockup_image_url son las fotos reales
+-- subidas por el cliente al bucket 'product-mockups' de Supabase
+-- Storage (público). Blusa y Tote Bag siguen en null: todavía no
+-- hay foto real subida para esos dos tipos (pendiente de sección 00).
 insert into public.products
   (id, category_id, name, description, base_price, mockup_image_url,
    print_area_x, print_area_y, print_area_w, print_area_h,
@@ -42,7 +42,7 @@ values
    '11111111-1111-1111-1111-111111111111',
    'Polera algodón cuello redondo',
    'Polera 100% algodón peinado 180g. Cuello redondo, costura reforzada. Ideal para estampado serigráfico o sublimado.',
-   90.00, '/mockups/polera-blanca.svg',
+   90.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/polera-hombre.png',
    0.330, 0.260, 0.340, 0.380,
    'Serigrafía', 'polera', null),
 
@@ -50,7 +50,7 @@ values
    '22222222-2222-2222-2222-222222222222',
    'Gorra trucker',
    'Gorra trucker frente algodón, espalda en malla transpirable, cierre snapback ajustable.',
-   75.00, '/mockups/gorra-blanca.svg',
+   75.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/gorra.png',
    0.300, 0.330, 0.400, 0.260,
    'Sublimación', 'gorra', null),
 
@@ -58,7 +58,7 @@ values
    '33333333-3333-3333-3333-333333333333',
    'Taza cerámica 11 oz',
    'Taza de cerámica blanca apta para sublimación. 11 oz.',
-   55.00, '/mockups/taza-blanca.svg',
+   55.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/taza.png',
    0.280, 0.250, 0.460, 0.500,
    'Sublimación', 'taza', null),
 
@@ -66,21 +66,24 @@ values
    '11111111-1111-1111-1111-111111111111',
    'Polera Deportiva Sublimada',
    'Polera técnica de poliéster, transpirable, ideal para diseños fotográficos a color completo.',
-   120.00, null, default, default, default, default,
+   120.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/polera-hombre.png',
+   default, default, default, default,
    'Sublimación', 'polera', 'Más vendido'),
 
   ('dddd2222-dddd-dddd-dddd-dddddddddddd',
    '11111111-1111-1111-1111-111111111111',
    'Polera Básica Algodón',
    'Polera de algodón 100%, corte clásico, la opción más versátil para estampado serigráfico.',
-   80.00, null, default, default, default, default,
+   80.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/polera-mujer.png',
+   default, default, default, default,
    'Serigrafía', 'polera', 'Más vendido'),
 
   ('dddd3333-dddd-dddd-dddd-dddddddddddd',
    '11111111-1111-1111-1111-111111111111',
    'Polera Oversize',
    'Corte oversize amplio, algodón grueso 220g. Tendencia streetwear.',
-   110.00, null, default, default, default, default,
+   110.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/polera-hombre.png',
+   default, default, default, default,
    'DTF', 'polera', 'Nuevo'),
 
   ('eeee1111-eeee-eeee-eeee-eeeeeeeeeeee',
@@ -101,21 +104,24 @@ values
    '22222222-2222-2222-2222-222222222222',
    'Gorra Curva Bordada',
    'Gorra visera curva con bordado 3D, estructura reforzada.',
-   85.00, null, default, default, default, default,
+   85.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/gorra.png',
+   default, default, default, default,
    'Bordado', 'gorra', null),
 
   ('99991111-9999-9999-9999-999999999999',
    '33333333-3333-3333-3333-333333333333',
    'Taza Mágica',
    'Taza cerámica negra que revela el diseño a color al contacto con líquido caliente.',
-   75.00, null, default, default, default, default,
+   75.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/taza.png',
+   default, default, default, default,
    'Sublimación', 'taza', 'Nuevo'),
 
   ('88881111-8888-8888-8888-888888888888',
    '55555555-5555-5555-5555-555555555555',
    'Suéter Cuello Redondo',
    'Suéter frisado cuello redondo, ideal para diseños grandes en la espalda o el pecho.',
-   160.00, null, default, default, default, default,
+   160.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/sueter-hombre.png',
+   default, default, default, default,
    'DTF', 'sueter', 'Nuevo'),
 
   ('77771111-7777-7777-7777-777777777777',
