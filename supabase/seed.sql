@@ -90,14 +90,16 @@ values
    '44444444-4444-4444-4444-444444444444',
    'Blusa Mujer Cuello V',
    'Blusa entallada cuello V, tela suave de poliéster apta para sublimación.',
-   95.00, null, default, default, default, default,
+   95.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/blusa-mujer-cuello-v.png',
+   default, default, default, default,
    'Sublimación', 'blusa', 'Nuevo'),
 
   ('eeee2222-eeee-eeee-eeee-eeeeeeeeeeee',
    '44444444-4444-4444-4444-444444444444',
    'Blusa Manga Larga',
    'Blusa manga larga entallada, ideal para diseños DTF de alta definición.',
-   115.00, null, default, default, default, default,
+   115.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/blusa-manga-larga.png',
+   default, default, default, default,
    'DTF', 'blusa', null),
 
   ('ffff1111-ffff-ffff-ffff-ffffffffffff',
@@ -128,7 +130,8 @@ values
    '66666666-6666-6666-6666-666666666666',
    'Tote Bag Algodón',
    'Bolso tote de algodón grueso resistente, asas reforzadas.',
-   65.00, null, default, default, default, default,
+   65.00, 'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/product-mockups/tote-bag-algodon.png',
+   default, default, default, default,
    'Serigrafía', 'totebag', null);
 
 -- ── Variantes ──────────────────────────────────────────────
