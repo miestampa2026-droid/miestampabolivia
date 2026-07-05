@@ -28,7 +28,20 @@ export async function composePreview(
 
   const [mockupImg, designImg] = await Promise.all([loadImage(mockupUrl), loadImage(designSrc)])
 
-  ctx.drawImage(mockupImg, 0, 0, CANVAS_SIZE, CANVAS_SIZE)
+  // Las fotos de producto no son 1:1 (ej. 1688x1536). Estirarlas directo a
+  // un canvas cuadrado las comprimía ~10% en ancho. Recorte "cover" centrado
+  // en vez de estirar: mantiene la proporción real de la prenda.
+  const mockupRatio = mockupImg.naturalWidth / mockupImg.naturalHeight
+  let srcW = mockupImg.naturalWidth
+  let srcH = mockupImg.naturalHeight
+  if (mockupRatio > 1) {
+    srcW = srcH
+  } else {
+    srcH = srcW
+  }
+  const srcX = (mockupImg.naturalWidth - srcW) / 2
+  const srcY = (mockupImg.naturalHeight - srcH) / 2
+  ctx.drawImage(mockupImg, srcX, srcY, srcW, srcH, 0, 0, CANVAS_SIZE, CANVAS_SIZE)
 
   const areaX = printArea.x * CANVAS_SIZE
   const areaY = printArea.y * CANVAS_SIZE
