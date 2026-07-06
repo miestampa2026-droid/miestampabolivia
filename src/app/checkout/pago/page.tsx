@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 import { Loader2, Upload } from 'lucide-react'
 import { useCart } from '@/lib/cart/CartContext'
 import { getPendingCheckout, clearPendingCheckout, type PendingCheckout } from '@/lib/checkout/pendingCheckout'
+import { createBrowserSupabase } from '@/lib/supabase/client'
+import { getPaymentConfig, type PaymentConfig } from '@/lib/queries/paymentConfig'
 import { BANK_INFO } from '@/lib/paymentConfig'
 import { formatBs } from '@/lib/utils'
 import type { CreateOrderPayload, CreateOrderResult } from '@/lib/orders/types'
@@ -20,10 +22,21 @@ export default function PagoPage() {
   const [comprobante, setComprobante] = useState<File | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [bankInfo, setBankInfo] = useState<PaymentConfig>({
+    qrImageUrl: BANK_INFO.qrImageUrl,
+    bankName: BANK_INFO.bankName,
+    bankHolder: BANK_INFO.accountHolder
+  })
 
   useEffect(() => {
     setPending(getPendingCheckout())
     setChecked(true)
+  }, [])
+
+  useEffect(() => {
+    getPaymentConfig(createBrowserSupabase())
+      .then(setBankInfo)
+      .catch(() => {})
   }, [])
 
   useEffect(() => {
@@ -83,7 +96,7 @@ export default function PagoPage() {
 
           <div className="mx-auto mt-6 aspect-square w-full max-w-[280px] overflow-hidden rounded-2xl bg-gray-light">
             <Image
-              src={BANK_INFO.qrImageUrl}
+              src={bankInfo.qrImageUrl}
               alt="QR de cobro"
               width={280}
               height={280}
@@ -94,10 +107,10 @@ export default function PagoPage() {
 
           <div className="mt-6 flex flex-col gap-1 font-body text-sm text-charcoal">
             <p>
-              <span className="font-display font-bold">Banco:</span> {BANK_INFO.bankName}
+              <span className="font-display font-bold">Banco:</span> {bankInfo.bankName}
             </p>
             <p>
-              <span className="font-display font-bold">Titular:</span> {BANK_INFO.accountHolder}
+              <span className="font-display font-bold">Titular:</span> {bankInfo.bankHolder}
             </p>
           </div>
 

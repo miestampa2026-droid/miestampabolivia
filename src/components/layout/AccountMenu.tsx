@@ -84,6 +84,15 @@ export function AccountMenu({ customer }: { customer: Customer | null }) {
           >
             Favoritos
           </Link>
+          {customer.is_admin && (
+            <Link
+              href="/admin/pedidos"
+              onClick={() => setOpen(false)}
+              className="block rounded-md px-3 py-2 font-display text-sm font-semibold text-coral hover:bg-gray-light"
+            >
+              Panel admin
+            </Link>
+          )}
           <button
             type="button"
             onClick={handleSignOut}
