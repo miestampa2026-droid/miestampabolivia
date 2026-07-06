@@ -91,6 +91,7 @@ export function DesignSelector({
         priceDelta: v.price_delta
       })),
       designSource: selection.source,
+      designId: selection.source === 'galeria' ? selection.design.id : null,
       designLabel: selection.source === 'galeria' ? selection.design.name : 'Imagen propia',
       previewImageUrl: previewUrl,
       quantity: 1,

@@ -13,6 +13,7 @@ export type CartItem = {
   mockupImageUrl: string | null
   variantsSnapshot: CartVariantSnapshot[]
   designSource: 'galeria' | 'subida'
+  designId: string | null
   designLabel: string
   previewImageUrl: string
   quantity: number

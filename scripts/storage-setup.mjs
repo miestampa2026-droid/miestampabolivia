@@ -23,7 +23,8 @@ const BUCKETS = [
   { name: 'uploads', public: false },
   { name: 'previews', public: true },
   { name: 'payment-proofs', public: false },
-  { name: 'mockups', public: true }
+  { name: 'mockups', public: true },
+  { name: 'payment-qr', public: true }
 ]
 
 console.log(`▶ Configurando ${BUCKETS.length} bucket(s) de Storage…`)
