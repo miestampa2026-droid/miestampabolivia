@@ -5,6 +5,8 @@ import { Logo } from '@/components/layout/Logo'
 import { ProductMockup, type MockupType } from '@/components/product/ProductMockup'
 import { ProductCard } from '@/components/catalog/ProductCard'
 import { getCategoriesWithProducts, getProductSizes } from '@/lib/queries/catalog'
+import { createServerSupabase } from '@/lib/supabase/server'
+import { getCurrentCustomer, getFavoriteProductIds } from '@/lib/queries/customers'
 
 const HERO_BASE =
   'https://ywykaivywtvcucedxnoc.supabase.co/storage/v1/object/public/fotosia'
@@ -63,6 +65,10 @@ export default async function Home() {
   const featured = products.filter((p) => p.badge === 'Más vendido')
   const bestsellers = [...featured, ...products.filter((p) => p.badge !== 'Más vendido')].slice(0, 4)
   const sizesByProduct = await getProductSizes(bestsellers.map((p) => p.id))
+
+  const supabase = createServerSupabase()
+  const customer = await getCurrentCustomer(supabase)
+  const favoriteProductIds = customer ? await getFavoriteProductIds(supabase, customer.id) : undefined
 
   const countByCategoryName: Record<string, number> = {}
   for (const p of products) {
@@ -256,6 +262,8 @@ export default async function Home() {
                   product={product}
                   showTechnique
                   sizes={sizesByProduct[product.id]}
+                  isLoggedIn={!!customer}
+                  initialFavorited={favoriteProductIds?.has(product.id)}
                 />
               ))}
             </div>

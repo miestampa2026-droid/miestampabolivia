@@ -4,6 +4,8 @@ import {
   getProductSizes,
   getProductColors
 } from '@/lib/queries/catalog'
+import { createServerSupabase } from '@/lib/supabase/server'
+import { getCurrentCustomer, getFavoriteProductIds } from '@/lib/queries/customers'
 
 export const metadata = {
   title: 'Catálogo — Mi Estampa'
@@ -21,6 +23,10 @@ export default async function CatalogoPage({
   const sizesByProduct = await getProductSizes(productIds)
   const colorsByProduct = await getProductColors(productIds)
 
+  const supabase = createServerSupabase()
+  const customer = await getCurrentCustomer(supabase)
+  const favoriteProductIds = customer ? await getFavoriteProductIds(supabase, customer.id) : undefined
+
   return (
     <main className="min-h-dvh bg-off-white">
       <div className="container py-8 sm:py-12">
@@ -37,6 +43,8 @@ export default async function CatalogoPage({
           sizesByProduct={sizesByProduct}
           colorsByProduct={colorsByProduct}
           initialCategorySlug={searchParams.categoria}
+          isLoggedIn={!!customer}
+          favoriteProductIds={favoriteProductIds}
         />
       </div>
     </main>

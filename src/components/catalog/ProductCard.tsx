@@ -9,17 +9,22 @@ import { ProductMockup, type MockupType } from '@/components/product/ProductMock
 import { getMockupForCategory } from '@/lib/productMockupMap'
 import { resolveProductColor } from '@/lib/productColors'
 import type { ProductListItem } from '@/lib/queries/catalog'
+import { FavoriteLoginModal } from '@/components/account/FavoriteLoginModal'
 
 export function ProductCard({
   product,
   showTechnique = false,
   sizes,
-  colors
+  colors,
+  isLoggedIn = false,
+  initialFavorited = false
 }: {
   product: ProductListItem
   showTechnique?: boolean
   sizes?: string[]
   colors?: string[]
+  isLoggedIn?: boolean
+  initialFavorited?: boolean
 }) {
   // product.mockup_type/technique son datos reales (columnas products.*).
   // La heurística por categoría queda solo como red de seguridad para
@@ -27,7 +32,36 @@ export function ProductCard({
   const fallback = getMockupForCategory(product.category_name)
   const mockupType = (product.mockup_type as MockupType | null) ?? fallback.type
   const technique = product.technique
-  const [favorited, setFavorited] = useState(false)
+  const [favorited, setFavorited] = useState(initialFavorited)
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false)
+  const [pending, setPending] = useState(false)
+
+  async function handleToggleFavorite(e: React.MouseEvent) {
+    e.preventDefault()
+    if (!isLoggedIn) {
+      setShowLoginPrompt(true)
+      return
+    }
+    if (pending) return
+
+    const next = !favorited
+    setFavorited(next)
+    setPending(true)
+    try {
+      const res = await fetch('/api/favorites', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId: product.id })
+      })
+      if (!res.ok) throw new Error('request failed')
+      const data = (await res.json()) as { favorited: boolean }
+      setFavorited(data.favorited)
+    } catch {
+      setFavorited(!next)
+    } finally {
+      setPending(false)
+    }
+  }
 
   return (
     <div className="group relative overflow-hidden rounded-2xl bg-white shadow-card-sm transition duration-200 ease-brand hover:-translate-y-[5px] hover:shadow-card-lg">
@@ -74,16 +108,15 @@ export function ProductCard({
 
       <button
         type="button"
-        onClick={(e) => {
-          e.preventDefault()
-          setFavorited((f) => !f)
-        }}
+        onClick={handleToggleFavorite}
         aria-label={favorited ? 'Quitar de favoritos' : 'Agregar a favoritos'}
         aria-pressed={favorited}
         className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-charcoal shadow-card-sm transition hover:text-coral"
       >
         <Heart size={16} className={cn(favorited && 'fill-coral text-coral')} aria-hidden />
       </button>
+
+      {showLoginPrompt && <FavoriteLoginModal onClose={() => setShowLoginPrompt(false)} />}
 
       <Link href={`/producto/${product.id}`} className="block p-4">
         <p className="mb-1 font-display text-[16px] font-bold text-charcoal">{product.name}</p>

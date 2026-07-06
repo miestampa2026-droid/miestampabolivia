@@ -26,13 +26,17 @@ export function CatalogView({
   products,
   sizesByProduct,
   colorsByProduct,
-  initialCategorySlug
+  initialCategorySlug,
+  isLoggedIn = false,
+  favoriteProductIds
 }: {
   categories: Category[]
   products: ProductListItem[]
   sizesByProduct: Record<string, string[]>
   colorsByProduct: Record<string, string[]>
   initialCategorySlug?: string
+  isLoggedIn?: boolean
+  favoriteProductIds?: Set<string>
 }) {
   const [categorySlug, setCategorySlug] = useState<string | null>(
     initialCategorySlug && categories.some((c) => c.slug === initialCategorySlug)
@@ -393,6 +397,8 @@ export function CatalogView({
                 showTechnique
                 sizes={sizesByProduct[product.id]}
                 colors={colorsByProduct[product.id]}
+                isLoggedIn={isLoggedIn}
+                initialFavorited={favoriteProductIds?.has(product.id)}
               />
             ))}
           </div>
