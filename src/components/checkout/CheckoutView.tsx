@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useCart } from '@/lib/cart/CartContext'
 import { getShippingZones, type ShippingZone } from '@/lib/queries/shipping'
 import { formatBs, cn } from '@/lib/utils'
+import { savePendingCheckout } from '@/lib/checkout/pendingCheckout'
 import type { Customer, CustomerAddress } from '@/lib/queries/customers'
 
 const NEW_ADDRESS = '__new__'
@@ -22,10 +24,12 @@ export function CheckoutView({
   customer: Customer | null
   addresses: CustomerAddress[]
 }) {
+  const router = useRouter()
   const { items, subtotal } = useCart()
   const [zones, setZones] = useState<ShippingZone[]>([])
   const [deliveryMethod, setDeliveryMethod] = useState<'envio' | 'retiro'>('envio')
   const [zoneId, setZoneId] = useState('')
+  const [formError, setFormError] = useState<string | null>(null)
 
   const defaultAddress = addresses.find((a) => a.is_default) ?? addresses[0] ?? null
   const [selectedAddressId, setSelectedAddressId] = useState<string>(defaultAddress?.id ?? NEW_ADDRESS)
@@ -56,6 +60,38 @@ export function CheckoutView({
   const selectedZone = zones.find((z) => z.id === zoneId) ?? null
   const shippingCost = deliveryMethod === 'envio' ? (selectedZone?.cost ?? 0) : 0
   const total = subtotal + shippingCost
+
+  function handleContinuar() {
+    setFormError(null)
+
+    if (!form.nombre.trim() || !form.whatsapp.trim() || !form.email.trim()) {
+      setFormError('Completá nombre, WhatsApp y email.')
+      return
+    }
+    if (deliveryMethod === 'envio' && !zoneId) {
+      setFormError('Elegí tu zona de envío.')
+      return
+    }
+    if (deliveryMethod === 'envio' && !form.direccion.trim()) {
+      setFormError('Completá la dirección de envío.')
+      return
+    }
+
+    savePendingCheckout({
+      nombre: form.nombre,
+      whatsapp: form.whatsapp,
+      email: form.email,
+      deliveryMethod,
+      zoneId: deliveryMethod === 'envio' ? zoneId : null,
+      direccion: deliveryMethod === 'envio' ? form.direccion : null,
+      items,
+      subtotal,
+      shippingCost,
+      total
+    })
+
+    router.push('/checkout/pago')
+  }
 
   if (items.length === 0) {
     return (
@@ -266,20 +302,17 @@ export function CheckoutView({
               </div>
             </div>
 
-            {/* customer?.id viaja implícito en la sesión: cuando exista creación
-                de pedido (sección 07), el route handler lee el customer desde la
-                cookie de sesión y no necesita que el formulario se lo pase. */}
+            {/* customer?.id viaja implícito en la sesión: el route handler de
+                creación de pedido lee el customer desde la cookie de sesión,
+                nunca del formulario. */}
             <button
               type="button"
-              disabled
-              title="Disponible cuando esté listo el pago QR (sección 07)"
-              className="mt-6 w-full cursor-not-allowed rounded-full bg-coral px-7 py-4 font-display text-[15px] font-bold text-white opacity-45"
+              onClick={handleContinuar}
+              className="mt-6 w-full rounded-full bg-coral px-7 py-4 font-display text-[15px] font-bold text-white shadow-card-sm transition hover:-translate-y-px hover:bg-coral-dark hover:shadow-card-md"
             >
               Continuar al pago
             </button>
-            <p className="mt-3 font-body text-sm text-gray-mid">
-              Próximamente: pago por QR (sección 07).
-            </p>
+            {formError && <p className="mt-3 font-body text-sm text-brand-error">{formError}</p>}
           </div>
         </div>
       </div>
