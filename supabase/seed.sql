@@ -238,3 +238,160 @@ insert into public.shipping_zones (name, departamento, cost, estimated_days) val
   ('Tarija',             'Tarija',      45.00, '4-6 días'),
   ('Beni',               'Beni',        55.00, '5-7 días'),
   ('Pando',              'Pando',       65.00, '6-9 días');
+
+-- ── Pedidos de prueba (para probar el panel admin — sección 09) ────
+-- Sin customer_id (simulan invitados). product_id/design_id se buscan
+-- por nombre: los ids de designs se regeneran en cada reseed, nunca
+-- hay que hardcodear su UUID.
+with ins_order as (
+  insert into public.orders (
+    customer_name, customer_phone, customer_email, delivery_method,
+    shipping_zone_id, shipping_address, shipping_cost, subtotal, total,
+    payment_status, order_status
+  ) values (
+    'Ana Pérez', '70011111', 'ana.perez@example.com', 'envio',
+    (select id from public.shipping_zones where name = 'Santa Cruz ciudad'),
+    'Av. Cristo Redentor #100, Santa Cruz', 15.00, 90.00, 105.00,
+    'pendiente_verificacion', 'nuevo'
+  )
+  returning id
+)
+insert into public.order_items (
+  order_id, product_id, product_name_snapshot, variants_snapshot,
+  design_source, design_id, quantity, unit_price, line_total
+)
+select
+  id,
+  (select id from public.products where name = 'Polera algodón cuello redondo'),
+  'Polera algodón cuello redondo',
+  '{"talla":"M","color":"Blanco"}'::jsonb,
+  'galeria',
+  (select id from public.designs where name = 'Vive con estampa'),
+  1, 90.00, 90.00
+from ins_order;
+
+with ins_order as (
+  insert into public.orders (
+    customer_name, customer_phone, customer_email, delivery_method,
+    subtotal, total, payment_status, order_status
+  ) values (
+    'Beto Gutiérrez', '70022222', 'beto.gutierrez@example.com', 'retiro',
+    150.00, 150.00, 'pagado_confirmado', 'nuevo'
+  )
+  returning id
+)
+insert into public.order_items (
+  order_id, product_id, product_name_snapshot, variants_snapshot,
+  design_source, design_id, quantity, unit_price, line_total
+)
+select
+  id,
+  (select id from public.products where name = 'Gorra trucker'),
+  'Gorra trucker',
+  '{}'::jsonb,
+  'galeria',
+  (select id from public.designs where name = 'Camba 100%'),
+  2, 75.00, 150.00
+from ins_order;
+
+with ins_order as (
+  insert into public.orders (
+    customer_name, customer_phone, customer_email, delivery_method,
+    shipping_zone_id, shipping_address, shipping_cost, subtotal, total,
+    payment_status, order_status
+  ) values (
+    'Carla Rojas', '70033333', 'carla.rojas@example.com', 'envio',
+    (select id from public.shipping_zones where name = 'La Paz'),
+    'Calle Sagárnaga #200, La Paz', 35.00, 55.00, 90.00,
+    'pagado_confirmado', 'en_produccion'
+  )
+  returning id
+)
+insert into public.order_items (
+  order_id, product_id, product_name_snapshot, variants_snapshot,
+  design_source, design_id, quantity, unit_price, line_total
+)
+select
+  id,
+  (select id from public.products where name = 'Taza cerámica 11 oz'),
+  'Taza cerámica 11 oz',
+  '{}'::jsonb,
+  'galeria',
+  (select id from public.designs where name = 'Llama en el cielo'),
+  1, 55.00, 55.00
+from ins_order;
+
+with ins_order as (
+  insert into public.orders (
+    customer_name, customer_phone, customer_email, delivery_method,
+    subtotal, total, payment_status, order_status
+  ) values (
+    'Diego Vaca', '70044444', 'diego.vaca@example.com', 'retiro',
+    120.00, 120.00, 'pagado_confirmado', 'listo'
+  )
+  returning id
+)
+insert into public.order_items (
+  order_id, product_id, product_name_snapshot, variants_snapshot,
+  design_source, design_id, quantity, unit_price, line_total
+)
+select
+  id,
+  (select id from public.products where name = 'Polera Deportiva Sublimada'),
+  'Polera Deportiva Sublimada',
+  '{"talla":"L","color":"Negro"}'::jsonb,
+  'galeria',
+  (select id from public.designs where name = 'Vive con estampa'),
+  1, 120.00, 120.00
+from ins_order;
+
+with ins_order as (
+  insert into public.orders (
+    customer_name, customer_phone, customer_email, delivery_method,
+    shipping_zone_id, shipping_address, shipping_cost, subtotal, total,
+    payment_status, order_status
+  ) values (
+    'Elena Suárez', '70055555', 'elena.suarez@example.com', 'envio',
+    (select id from public.shipping_zones where name = 'Santa Cruz ciudad'),
+    'Barrio Urbari, calle 5 #45, Santa Cruz', 15.00, 240.00, 255.00,
+    'pagado_confirmado', 'entregado'
+  )
+  returning id
+)
+insert into public.order_items (
+  order_id, product_id, product_name_snapshot, variants_snapshot,
+  design_source, design_id, quantity, unit_price, line_total
+)
+select
+  id,
+  (select id from public.products where name = 'Polera Básica Algodón'),
+  'Polera Básica Algodón',
+  '{"talla":"S","color":"Azul"}'::jsonb,
+  'galeria',
+  (select id from public.designs where name = 'Camba 100%'),
+  3, 80.00, 240.00
+from ins_order;
+
+with ins_order as (
+  insert into public.orders (
+    customer_name, customer_phone, customer_email, delivery_method,
+    subtotal, total, payment_status, order_status
+  ) values (
+    'Fabián Mendoza', '70066666', 'fabian.mendoza@example.com', 'retiro',
+    110.00, 110.00, 'rechazado', 'nuevo'
+  )
+  returning id
+)
+insert into public.order_items (
+  order_id, product_id, product_name_snapshot, variants_snapshot,
+  design_source, design_id, quantity, unit_price, line_total
+)
+select
+  id,
+  (select id from public.products where name = 'Polera Oversize'),
+  'Polera Oversize',
+  '{}'::jsonb,
+  'galeria',
+  (select id from public.designs where name = 'Diablada'),
+  1, 110.00, 110.00
+from ins_order;

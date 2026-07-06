@@ -193,6 +193,7 @@ export type Database = {
           name: string | null
           email: string | null
           phone: string | null
+          is_admin: boolean
           created_at: string
         }
         Insert: {
@@ -201,6 +202,7 @@ export type Database = {
           name?: string | null
           email?: string | null
           phone?: string | null
+          is_admin?: boolean
           created_at?: string
         }
         Update: Partial<Database['public']['Tables']['customers']['Insert']>
@@ -282,6 +284,24 @@ export type Database = {
           created_at?: string
         }
         Update: Partial<Database['public']['Tables']['order_items']['Insert']>
+        Relationships: []
+      }
+      payment_config: {
+        Row: {
+          id: string
+          qr_image_url: string | null
+          bank_name: string | null
+          bank_holder: string | null
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          qr_image_url?: string | null
+          bank_name?: string | null
+          bank_holder?: string | null
+          updated_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['payment_config']['Insert']>
         Relationships: []
       }
     }

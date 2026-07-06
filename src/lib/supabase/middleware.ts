@@ -30,6 +30,7 @@ export async function updateSession(request: NextRequest) {
 
   const { pathname } = request.nextUrl
   const isAccountArea = pathname.startsWith('/cuenta')
+  const isAdminArea = pathname.startsWith('/admin')
   const isPublicAccountPath = PUBLIC_ACCOUNT_PATHS.some((p) => pathname.startsWith(p))
 
   if (isAccountArea && !isPublicAccountPath && !user) {
@@ -44,6 +45,28 @@ export async function updateSession(request: NextRequest) {
     url.pathname = '/cuenta'
     url.search = ''
     return NextResponse.redirect(url)
+  }
+
+  if (isAdminArea) {
+    if (!user) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/cuenta/login'
+      url.searchParams.set('redirect', pathname)
+      return NextResponse.redirect(url)
+    }
+
+    const { data: customer } = await supabase
+      .from('customers')
+      .select('is_admin')
+      .eq('auth_user_id', user.id)
+      .maybeSingle()
+
+    if (!customer?.is_admin) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/'
+      url.search = ''
+      return NextResponse.redirect(url)
+    }
   }
 
   return response
