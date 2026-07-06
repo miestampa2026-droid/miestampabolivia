@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Logo } from '@/components/layout/Logo'
 import { CartLink } from '@/components/layout/CartLink'
+import { AccountMenu } from '@/components/layout/AccountMenu'
 import { cn } from '@/lib/utils'
+import type { Customer } from '@/lib/queries/customers'
 
-export function Nav() {
+export function Nav({ customer }: { customer: Customer | null }) {
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -25,8 +27,8 @@ export function Nav() {
         scrolled ? 'border-b border-gray-light' : 'border-b border-transparent'
       )}
     >
-      <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
+      <div className="container flex h-16 items-center gap-2">
+        <Link href="/" className="flex shrink-0 items-center gap-2">
           <Logo size={30} />
           <span className="flex items-baseline gap-1 font-display">
             <span className="font-normal text-charcoal">Mi </span>
@@ -34,14 +36,15 @@ export function Nav() {
           </span>
         </Link>
 
-        <div className="flex items-center gap-6">
+        <div className="ml-auto flex items-center gap-2 sm:gap-6">
           <Link
             href="/catalogo"
-            className="font-display text-sm font-bold text-charcoal transition hover:text-coral"
+            className="whitespace-nowrap font-display text-sm font-bold text-charcoal transition hover:text-coral"
           >
             Catálogo
           </Link>
           <CartLink />
+          <AccountMenu customer={customer} />
         </div>
       </div>
     </header>

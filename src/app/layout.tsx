@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next'
 import { Plus_Jakarta_Sans, Nunito } from 'next/font/google'
 import { Nav } from '@/components/layout/Nav'
 import { CartProvider } from '@/lib/cart/CartContext'
+import { createServerSupabase } from '@/lib/supabase/server'
+import { getCurrentCustomer } from '@/lib/queries/customers'
 import './globals.css'
 
 const displayFont = Plus_Jakarta_Sans({
@@ -48,12 +50,15 @@ export const viewport: Viewport = {
   maximumScale: 5
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const supabase = createServerSupabase()
+  const customer = await getCurrentCustomer(supabase)
+
   return (
     <html lang="es-BO" className={`${displayFont.variable} ${bodyFont.variable}`}>
       <body className="min-h-dvh bg-background text-foreground antialiased">
         <CartProvider>
-          <Nav />
+          <Nav customer={customer} />
           {children}
         </CartProvider>
       </body>
