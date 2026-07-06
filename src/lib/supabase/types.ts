@@ -159,6 +159,7 @@ export type Database = {
           payment_proof_url: string | null
           order_status: OrderStatus
           notes: string | null
+          customer_id: string | null
           created_at: string
           updated_at: string
         }
@@ -178,10 +179,75 @@ export type Database = {
           payment_proof_url?: string | null
           order_status?: OrderStatus
           notes?: string | null
+          customer_id?: string | null
           created_at?: string
           updated_at?: string
         }
         Update: Partial<Database['public']['Tables']['orders']['Insert']>
+        Relationships: []
+      }
+      customers: {
+        Row: {
+          id: string
+          auth_user_id: string | null
+          name: string | null
+          email: string | null
+          phone: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          auth_user_id?: string | null
+          name?: string | null
+          email?: string | null
+          phone?: string | null
+          created_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['customers']['Insert']>
+        Relationships: []
+      }
+      customer_addresses: {
+        Row: {
+          id: string
+          customer_id: string
+          label: string | null
+          address_line: string
+          city: string
+          department: string
+          reference: string | null
+          is_default: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          customer_id: string
+          label?: string | null
+          address_line: string
+          city: string
+          department: string
+          reference?: string | null
+          is_default?: boolean
+          created_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['customer_addresses']['Insert']>
+        Relationships: []
+      }
+      customer_favorites: {
+        Row: {
+          id: string
+          customer_id: string
+          product_id: string | null
+          design_id: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          customer_id: string
+          product_id?: string | null
+          design_id?: string | null
+          created_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['customer_favorites']['Insert']>
         Relationships: []
       }
       order_items: {

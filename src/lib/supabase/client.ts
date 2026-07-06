@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
+import { createBrowserClient } from '@supabase/ssr'
 import type { Database } from './types'
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -10,6 +10,9 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
   )
 }
 
+// createBrowserClient (@supabase/ssr) en vez de createClient a secas:
+// guarda la sesión en cookies (no solo localStorage) para que el
+// middleware y los Server Components puedan leerla.
 export function createBrowserSupabase() {
-  return createClient<Database>(SUPABASE_URL!, SUPABASE_ANON_KEY!)
+  return createBrowserClient<Database>(SUPABASE_URL!, SUPABASE_ANON_KEY!)
 }

@@ -23,6 +23,7 @@ const config: Config = {
         },
         charcoal: 'var(--color-charcoal)',
         'gray-mid': 'var(--color-gray-mid)',
+        'gray-light': 'var(--color-gray-light)',
         'off-white': 'var(--color-off-white)',
         'brand-success': 'var(--color-success)',
         'brand-warning': 'var(--color-warning)',
