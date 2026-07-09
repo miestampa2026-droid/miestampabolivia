@@ -69,6 +69,18 @@ export async function getAdminProductDetail(supabase: SB, id: string): Promise<A
   return { ...product, variants: variants ?? [] }
 }
 
+export type AdminDesign = Database['public']['Tables']['designs']['Row']
+
+export async function getAdminDesigns(supabase: SB): Promise<AdminDesign[]> {
+  const { data, error } = await supabase
+    .from('designs')
+    .select('*')
+    .order('category', { ascending: true })
+    .order('name', { ascending: true })
+  if (error) throw error
+  return data ?? []
+}
+
 const ACCENT_MAP: Record<string, string> = {
   á: 'a',
   é: 'e',
