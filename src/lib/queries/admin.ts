@@ -1,7 +1,10 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { createAdminSupabase } from '@/lib/supabase/admin'
 import type { Database, OrderStatus, PaymentStatus } from '@/lib/supabase/types'
 
 type SB = SupabaseClient<Database>
+
+const ORIGINAL_SIGNED_URL_EXPIRY_SECONDS = 60 * 60 // 1 hora, se regenera en cada visita al panel
 
 export type AdminOrderListItem = {
   id: string
@@ -26,6 +29,7 @@ export async function getAdminOrders(supabase: SB): Promise<AdminOrderListItem[]
 
 export type AdminOrderItem = Database['public']['Tables']['order_items']['Row'] & {
   design_image_url: string | null
+  original_download_url: string | null
 }
 
 export type AdminOrderDetail = Database['public']['Tables']['orders']['Row'] & {
@@ -62,12 +66,30 @@ export async function getAdminOrderDetail(supabase: SB, orderId: string): Promis
     shippingZoneName = zone?.name ?? null
   }
 
+  // uploaded_image_url guarda el PATH del archivo original (bucket privado
+  // "uploads"), no una URL — se firma una URL fresca en cada visita para
+  // que el link de descarga nunca expire de verdad.
+  const admin = createAdminSupabase()
+  const itemsWithOriginal = await Promise.all(
+    (items ?? []).map(async (item) => {
+      let originalDownloadUrl: string | null = null
+      if (item.design_source === 'subida' && item.uploaded_image_url) {
+        const { data: signed } = await admin.storage
+          .from('uploads')
+          .createSignedUrl(item.uploaded_image_url, ORIGINAL_SIGNED_URL_EXPIRY_SECONDS)
+        originalDownloadUrl = signed?.signedUrl ?? null
+      }
+      return {
+        ...item,
+        design_image_url: item.design_id ? designImageById.get(item.design_id) ?? null : null,
+        original_download_url: originalDownloadUrl
+      }
+    })
+  )
+
   return {
     ...order,
     shipping_zone_name: shippingZoneName,
-    items: (items ?? []).map((item) => ({
-      ...item,
-      design_image_url: item.design_id ? designImageById.get(item.design_id) ?? null : null
-    }))
+    items: itemsWithOriginal
   }
 }

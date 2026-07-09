@@ -21,7 +21,12 @@ type Selection =
 type Step =
   | { name: 'seleccionar' }
   | { name: 'componiendo' }
-  | { name: 'preview'; previewUrl: string; uploadWarning: boolean }
+  | {
+      name: 'preview'
+      previewUrl: string
+      uploadWarning: boolean
+      uploadedImagePath: string | null
+    }
   | { name: 'error'; message: string }
 
 async function uploadPreview(blob: Blob): Promise<string | null> {
@@ -32,6 +37,22 @@ async function uploadPreview(blob: Blob): Promise<string | null> {
     if (!res.ok) return null
     const data = (await res.json()) as { url: string }
     return data.url
+  } catch {
+    return null
+  }
+}
+
+// Sube el archivo ORIGINAL (sin comprimir) al bucket privado "uploads",
+// separado del preview compuesto — es lo que necesitan las socias para
+// imprimir en buena calidad.
+async function uploadOriginal(file: File): Promise<string | null> {
+  try {
+    const formData = new FormData()
+    formData.append('file', file)
+    const res = await fetch('/api/uploads', { method: 'POST', body: formData })
+    if (!res.ok) return null
+    const data = (await res.json()) as { path: string }
+    return data.path
   } catch {
     return null
   }
@@ -66,8 +87,16 @@ export function DesignSelector({
     try {
       const blob = await composePreview(product.mockup_image_url, designSrc, product.print_area)
       const localUrl = URL.createObjectURL(blob)
-      const uploadedUrl = await uploadPreview(blob)
-      setStep({ name: 'preview', previewUrl: uploadedUrl ?? localUrl, uploadWarning: !uploadedUrl })
+      const [uploadedUrl, uploadedImagePath] = await Promise.all([
+        uploadPreview(blob),
+        selection.source === 'subida' ? uploadOriginal(selection.file) : Promise.resolve(null)
+      ])
+      setStep({
+        name: 'preview',
+        previewUrl: uploadedUrl ?? localUrl,
+        uploadWarning: !uploadedUrl,
+        uploadedImagePath
+      })
     } catch (err) {
       setStep({
         name: 'error',
@@ -76,7 +105,7 @@ export function DesignSelector({
     }
   }
 
-  function handleAddToCart(previewUrl: string) {
+  function handleAddToCart(previewUrl: string, uploadedImagePath: string | null) {
     if (!selection) return
 
     addItem({
@@ -94,6 +123,7 @@ export function DesignSelector({
       designId: selection.source === 'galeria' ? selection.design.id : null,
       designLabel: selection.source === 'galeria' ? selection.design.name : 'Imagen propia',
       previewImageUrl: previewUrl,
+      uploadedImagePath,
       quantity: 1,
       unitPrice
     })
@@ -107,7 +137,7 @@ export function DesignSelector({
         previewUrl={step.previewUrl}
         uploadWarning={step.uploadWarning}
         onChangeDesign={() => setStep({ name: 'seleccionar' })}
-        onAddToCart={() => handleAddToCart(step.previewUrl)}
+        onAddToCart={() => handleAddToCart(step.previewUrl, step.uploadedImagePath)}
       />
     )
   }

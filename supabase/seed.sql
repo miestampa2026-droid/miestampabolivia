@@ -264,7 +264,7 @@ select
   id,
   (select id from public.products where name = 'Polera algodón cuello redondo'),
   'Polera algodón cuello redondo',
-  '{"talla":"M","color":"Blanco"}'::jsonb,
+  '[{"type":"talla","label":"Talla","value":"M","priceDelta":0},{"type":"color","label":"Color","value":"Blanco","priceDelta":0}]'::jsonb,
   'galeria',
   (select id from public.designs where name = 'Vive con estampa'),
   1, 90.00, 90.00
@@ -288,7 +288,7 @@ select
   id,
   (select id from public.products where name = 'Gorra trucker'),
   'Gorra trucker',
-  '{}'::jsonb,
+  '[]'::jsonb,
   'galeria',
   (select id from public.designs where name = 'Camba 100%'),
   2, 75.00, 150.00
@@ -315,7 +315,7 @@ select
   id,
   (select id from public.products where name = 'Taza cerámica 11 oz'),
   'Taza cerámica 11 oz',
-  '{}'::jsonb,
+  '[]'::jsonb,
   'galeria',
   (select id from public.designs where name = 'Llama en el cielo'),
   1, 55.00, 55.00
@@ -339,7 +339,7 @@ select
   id,
   (select id from public.products where name = 'Polera Deportiva Sublimada'),
   'Polera Deportiva Sublimada',
-  '{"talla":"L","color":"Negro"}'::jsonb,
+  '[{"type":"talla","label":"Talla","value":"L","priceDelta":0},{"type":"color","label":"Color","value":"Negro","priceDelta":0}]'::jsonb,
   'galeria',
   (select id from public.designs where name = 'Vive con estampa'),
   1, 120.00, 120.00
@@ -366,7 +366,7 @@ select
   id,
   (select id from public.products where name = 'Polera Básica Algodón'),
   'Polera Básica Algodón',
-  '{"talla":"S","color":"Azul"}'::jsonb,
+  '[{"type":"talla","label":"Talla","value":"S","priceDelta":0},{"type":"color","label":"Color","value":"Azul","priceDelta":0}]'::jsonb,
   'galeria',
   (select id from public.designs where name = 'Camba 100%'),
   3, 80.00, 240.00
@@ -390,7 +390,7 @@ select
   id,
   (select id from public.products where name = 'Polera Oversize'),
   'Polera Oversize',
-  '{}'::jsonb,
+  '[]'::jsonb,
   'galeria',
   (select id from public.designs where name = 'Diablada'),
   1, 110.00, 110.00

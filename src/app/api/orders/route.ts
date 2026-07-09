@@ -102,7 +102,10 @@ export async function POST(request: Request) {
     variants_snapshot: item.variantsSnapshot,
     design_source: item.designSource,
     design_id: item.designId,
-    uploaded_image_url: null,
+    // Guarda el PATH del archivo original en el bucket privado "uploads"
+    // (no una URL): el admin genera una signed URL fresca cuando la pide,
+    // así el link nunca expira.
+    uploaded_image_url: item.uploadedImagePath,
     preview_image_url: item.previewImageUrl,
     quantity: item.quantity,
     unit_price: item.unitPrice,

@@ -6,6 +6,7 @@ import { getCurrentCustomer } from '@/lib/queries/customers'
 import { getAdminOrderDetail } from '@/lib/queries/admin'
 import { OrderStatusControls } from '@/components/admin/OrderStatusControls'
 import { formatBs } from '@/lib/utils'
+import { formatVariantsSnapshot } from '@/lib/orderLabels'
 
 export const dynamic = 'force-dynamic'
 
@@ -85,8 +86,8 @@ export default async function AdminPedidoDetailPage({ params }: { params: { id: 
         <h2 className="mb-4 font-display text-sm font-bold text-charcoal">Productos</h2>
         <div className="flex flex-col divide-y divide-gray-light">
           {order.items.map((item) => {
-            const downloadUrl = item.design_source === 'galeria' ? item.design_image_url : item.preview_image_url
-            const isHighRes = item.design_source === 'galeria' && !!item.design_image_url
+            const isGaleria = item.design_source === 'galeria'
+            const variantsText = formatVariantsSnapshot(item.variants_snapshot)
 
             return (
               <div key={item.id} className="flex flex-col gap-2 py-4 first:pt-0 last:pb-0 sm:flex-row sm:items-center sm:justify-between">
@@ -95,32 +96,51 @@ export default async function AdminPedidoDetailPage({ params }: { params: { id: 
                   <p className="font-body text-sm text-gray-mid">
                     Cantidad: {item.quantity} — {formatBs(item.line_total)}
                   </p>
-                  {item.variants_snapshot && Object.keys(item.variants_snapshot as object).length > 0 && (
-                    <p className="font-body text-sm text-gray-mid">
-                      {Object.entries(item.variants_snapshot as Record<string, string>)
-                        .map(([k, v]) => `${k}: ${v}`)
-                        .join(' · ')}
-                    </p>
-                  )}
+                  {variantsText && <p className="font-body text-sm text-gray-mid">{variantsText}</p>}
                 </div>
 
                 <div className="flex flex-col items-start gap-1 sm:items-end">
-                  {downloadUrl && (
+                  {isGaleria && item.design_image_url && (
                     <a
-                      href={downloadUrl}
+                      href={item.design_image_url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1.5 rounded-full border-2 border-charcoal px-4 py-2 font-display text-sm font-bold text-charcoal transition hover:border-coral hover:text-coral"
                     >
                       <Download size={14} aria-hidden />
-                      {isHighRes ? 'Descargar diseño' : 'Descargar preview'}
+                      Descargar diseño
                     </a>
                   )}
-                  {!isHighRes && (
-                    <span className="flex items-center gap-1 font-body text-sm text-brand-warning">
-                      <TriangleAlert size={12} aria-hidden />
-                      Sin archivo original (subida propia) — solo el preview compuesto
-                    </span>
+
+                  {!isGaleria && (
+                    <>
+                      {item.original_download_url ? (
+                        <a
+                          href={item.original_download_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 rounded-full border-2 border-charcoal px-4 py-2 font-display text-sm font-bold text-charcoal transition hover:border-coral hover:text-coral"
+                        >
+                          <Download size={14} aria-hidden />
+                          Descargar imagen original
+                        </a>
+                      ) : (
+                        <span className="flex items-center gap-1 font-body text-sm text-brand-warning">
+                          <TriangleAlert size={12} aria-hidden />
+                          Sin archivo original guardado
+                        </span>
+                      )}
+                      {item.preview_image_url && (
+                        <a
+                          href={item.preview_image_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-body text-sm text-gray-mid underline hover:text-charcoal"
+                        >
+                          Ver preview (referencia visual)
+                        </a>
+                      )}
+                    </>
                   )}
                 </div>
               </div>

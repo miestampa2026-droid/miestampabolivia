@@ -16,6 +16,9 @@ export type CartItem = {
   designId: string | null
   designLabel: string
   previewImageUrl: string
+  // Path (no URL) del archivo original en el bucket privado "uploads",
+  // solo para designSource:'subida'. Se resuelve a signed URL bajo demanda.
+  uploadedImagePath: string | null
   quantity: number
   unitPrice: number
 }

@@ -1,4 +1,4 @@
-import type { OrderStatus, PaymentStatus } from '@/lib/supabase/types'
+import type { OrderStatus, PaymentStatus, Json } from '@/lib/supabase/types'
 
 export const ORDER_STATUS_LABEL: Record<OrderStatus, string> = {
   nuevo: 'Nuevo',
@@ -29,3 +29,22 @@ export const PAYMENT_STATUS_BADGE_CLASS: Record<PaymentStatus, string> = {
 }
 
 export const ORDER_STATUS_TIMELINE: OrderStatus[] = ['nuevo', 'en_produccion', 'listo', 'entregado']
+
+// order_items.variants_snapshot real (armado por el carrito) es un array
+// de CartVariantSnapshot: [{ type, label, value, priceDelta }, ...].
+// Formatea "Talla: M · Color: Blanco" a partir de eso.
+export function formatVariantsSnapshot(snapshot: Json): string | null {
+  if (!Array.isArray(snapshot) || snapshot.length === 0) return null
+
+  const parts = snapshot
+    .map((v) => {
+      if (!v || typeof v !== 'object' || Array.isArray(v)) return null
+      const label = 'label' in v ? v.label : undefined
+      const value = 'value' in v ? v.value : undefined
+      if (typeof label !== 'string' || typeof value !== 'string') return null
+      return `${label}: ${value}`
+    })
+    .filter((s): s is string => !!s)
+
+  return parts.length > 0 ? parts.join(' · ') : null
+}
