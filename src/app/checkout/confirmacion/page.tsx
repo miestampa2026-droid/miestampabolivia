@@ -19,7 +19,7 @@ export default async function ConfirmacionPage({
   const admin = createAdminSupabase()
   const { data: order } = await admin
     .from('orders')
-    .select('id, order_number, total')
+    .select('id, order_number, total, customer_name')
     .eq('id', orderId)
     .maybeSingle()
 
@@ -27,7 +27,12 @@ export default async function ConfirmacionPage({
 
   const supabase = createServerSupabase()
   const customer = await getCurrentCustomer(supabase)
-  const whatsappLink = getOrderWhatsAppLink(order.order_number, order.total)
+  const whatsappLink = getOrderWhatsAppLink({
+    id: order.id,
+    orderNumber: order.order_number,
+    customerName: order.customer_name,
+    total: order.total
+  })
 
   return (
     <main className="min-h-dvh bg-off-white">

@@ -33,7 +33,7 @@ export const ORDER_STATUS_TIMELINE: OrderStatus[] = ['nuevo', 'en_produccion', '
 // order_items.variants_snapshot real (armado por el carrito) es un array
 // de CartVariantSnapshot: [{ type, label, value, priceDelta }, ...].
 // Formatea "Talla: M · Color: Blanco" a partir de eso.
-export function formatVariantsSnapshot(snapshot: Json): string | null {
+export function formatVariantsSnapshot(snapshot: Json | undefined | null): string | null {
   if (!Array.isArray(snapshot) || snapshot.length === 0) return null
 
   const parts = snapshot

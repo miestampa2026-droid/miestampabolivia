@@ -48,6 +48,13 @@ export function OrderStatusControls({
       setError(updateError.message)
       return
     }
+
+    // Avisar al cliente solo quiando el pago recién pasa a confirmado
+    // (no en cada click si ya estaba confirmado).
+    if (value === 'pagado_confirmado' && paymentStatus !== 'pagado_confirmado') {
+      fetch(`/api/admin/orders/${orderId}/confirm-payment-notify`, { method: 'POST' }).catch(() => {})
+    }
+
     router.refresh()
   }
 
