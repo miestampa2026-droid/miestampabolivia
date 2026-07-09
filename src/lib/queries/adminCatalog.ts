@@ -25,6 +25,50 @@ export async function getAdminCategories(supabase: SB): Promise<AdminCategory[]>
   return (categories ?? []).map((c) => ({ ...c, product_count: countByCategory.get(c.id) ?? 0 }))
 }
 
+export type AdminProductListItem = Database['public']['Tables']['products']['Row'] & {
+  category_name: string
+}
+
+export async function getAdminProducts(supabase: SB): Promise<AdminProductListItem[]> {
+  const { data: products, error } = await supabase
+    .from('products')
+    .select('*')
+    .order('created_at', { ascending: false })
+  if (error) throw error
+
+  const { data: categories, error: categoriesError } = await supabase
+    .from('products_categories')
+    .select('id, name')
+  if (categoriesError) throw categoriesError
+  const categoryNameById = new Map((categories ?? []).map((c) => [c.id, c.name]))
+
+  return (products ?? []).map((p) => ({
+    ...p,
+    category_name: categoryNameById.get(p.category_id) ?? ''
+  }))
+}
+
+export type AdminProductVariant = Database['public']['Tables']['product_variants']['Row']
+
+export type AdminProductDetail = Database['public']['Tables']['products']['Row'] & {
+  variants: AdminProductVariant[]
+}
+
+export async function getAdminProductDetail(supabase: SB, id: string): Promise<AdminProductDetail | null> {
+  const { data: product, error } = await supabase.from('products').select('*').eq('id', id).maybeSingle()
+  if (error) throw error
+  if (!product) return null
+
+  const { data: variants, error: variantsError } = await supabase
+    .from('product_variants')
+    .select('*')
+    .eq('product_id', id)
+    .order('created_at', { ascending: true })
+  if (variantsError) throw variantsError
+
+  return { ...product, variants: variants ?? [] }
+}
+
 const ACCENT_MAP: Record<string, string> = {
   á: 'a',
   é: 'e',

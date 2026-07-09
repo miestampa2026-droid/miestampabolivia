@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 
 const TABS = [
   { href: '/admin/pedidos', label: 'Pedidos' },
+  { href: '/admin/productos', label: 'Productos' },
   { href: '/admin/categorias', label: 'Categorías' },
   { href: '/admin/configuracion', label: 'Configuración' }
 ]
@@ -33,7 +34,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </Link>
         </div>
 
-        <nav className="mb-8 flex gap-2">
+        <nav className="mb-8 flex flex-wrap gap-2">
           {TABS.map((tab) => {
             const active = pathname.startsWith(tab.href)
             return (
