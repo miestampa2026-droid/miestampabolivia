@@ -11,6 +11,7 @@
     "type-check": "tsc --noEmit",
     "db:apply": "node --env-file=.env.local scripts/db-apply.mjs",
     "db:seed": "node --env-file=.env.local scripts/db-seed.mjs",
+    "db:seed:catalog": "node --env-file=.env.local scripts/db-seed-catalog.mjs",
     "db:reset": "npm run db:apply && npm run db:seed",
     "storage:setup": "node --env-file=.env.local scripts/storage-setup.mjs"
   },
