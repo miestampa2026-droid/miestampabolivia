@@ -81,6 +81,17 @@ export async function getAdminDesigns(supabase: SB): Promise<AdminDesign[]> {
   return data ?? []
 }
 
+export type AdminShippingZone = Database['public']['Tables']['shipping_zones']['Row']
+
+export async function getAdminShippingZones(supabase: SB): Promise<AdminShippingZone[]> {
+  const { data, error } = await supabase
+    .from('shipping_zones')
+    .select('*')
+    .order('cost', { ascending: true })
+  if (error) throw error
+  return data ?? []
+}
+
 const ACCENT_MAP: Record<string, string> = {
   á: 'a',
   é: 'e',
